@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Moon, Sun, LogOut } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -37,10 +38,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          HOCA
+        <Link to="/" className="flex items-center gap-2 transition-smooth hover:opacity-80">
+          <img src={logo} alt="HOCA Logo" className="h-10 w-10" />
+          <span className="text-2xl font-bold text-primary">HOCA</span>
         </Link>
 
         <div className="flex items-center gap-4">

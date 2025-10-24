@@ -56,12 +56,13 @@ const Room = () => {
   };
 
   const handleTimerComplete = async () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    
     if (!isBreak) {
       // Work session completed
-      toast({
-        title: "Great work! 🎉",
-        description: "Take a 5-minute break.",
-      });
       setIsBreak(true);
       setTimeRemaining(5 * 60);
       
@@ -71,12 +72,9 @@ const Room = () => {
       }
     } else {
       // Break completed
-      toast({
-        title: "Break's over!",
-        description: "Ready for another session?",
-      });
       setIsBreak(false);
       setTimeRemaining(45 * 60);
+      setSessionStarted(false);
     }
   };
 
@@ -229,20 +227,61 @@ const Room = () => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  // Break completion modal
+  if (isBreak && timeRemaining === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+        <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
+            <span className="text-4xl">🎉</span>
+          </div>
+          <h2 className="text-3xl font-bold mb-4">Break Complete!</h2>
+          <p className="text-muted-foreground mb-8">
+            Great job! You've completed a study session. Take your time to relax.
+          </p>
+          <div className="space-y-3">
+            <Button
+              size="lg"
+              className="w-full gradient-primary text-white"
+              onClick={() => {
+                setIsBreak(false);
+                setTimeRemaining(45 * 60);
+                setSessionStarted(false);
+                startTimer();
+              }}
+            >
+              Start Another Session
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full"
+              onClick={() => navigate("/dashboard")}
+            >
+              Back to Dashboard
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-semibold">{roomName}</h1>
             <p className="text-sm text-muted-foreground">
-              {isBreak ? "Break Time" : "Focus Session"}
+              {isBreak ? "🧘 Break Time - Relax" : "📚 Focus Session"}
             </p>
           </div>
           
           <div className="flex items-center gap-4">
-            <div className={`text-3xl font-bold ${isBreak ? "text-accent" : "text-primary"}`}>
+            <div className={`text-2xl font-bold px-4 py-2 rounded-lg ${
+              isBreak ? "gradient-accent text-white" : "gradient-primary text-white"
+            }`}>
               {formatTime(timeRemaining)}
             </div>
             <Button variant="ghost" size="icon" onClick={handleLeaveRoom}>
@@ -255,37 +294,44 @@ const Room = () => {
       {/* Main Content */}
       <div className="pt-24 pb-8 px-4">
         <div className="container mx-auto max-w-6xl">
+          {/* Status Message */}
+          {isBreak && (
+            <Card className="mb-6 p-4 gradient-accent text-white text-center">
+              <p className="text-lg font-semibold">Take a break! Stretch, grab water, or rest your eyes.</p>
+            </Card>
+          )}
+          
           {/* Video Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {/* User's Video */}
-            <Card className="relative aspect-video overflow-hidden bg-muted shadow-smooth">
+            <Card className="relative aspect-video overflow-hidden bg-card shadow-smooth border-2 hover:border-primary/50 transition-smooth">
               {cameraEnabled ? (
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
                   muted
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
+                <div className="w-full h-full flex items-center justify-center bg-muted">
                   <div className="text-center">
                     <VideoOff className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">Camera Off</p>
                   </div>
                 </div>
               )}
-              <div className="absolute bottom-2 left-2 bg-black/50 px-2 py-1 rounded text-xs text-white">
+              <div className="absolute bottom-3 left-3 bg-primary/90 px-3 py-1 rounded-full text-xs font-medium text-white">
                 You
               </div>
             </Card>
 
             {/* Simulated Other Users */}
             {[1, 2, 3, 4, 5].map((i) => (
-              <Card key={i} className="relative aspect-video overflow-hidden bg-muted/50 shadow-smooth">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center opacity-50">
-                    <Video className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
+              <Card key={i} className="relative aspect-video overflow-hidden bg-card shadow-smooth border-2">
+                <div className="w-full h-full flex items-center justify-center bg-muted/30">
+                  <div className="text-center opacity-40">
+                    <Video className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
                     <p className="text-xs text-muted-foreground">Student {i}</p>
                   </div>
                 </div>
@@ -294,12 +340,12 @@ const Room = () => {
           </div>
 
           {/* Controls */}
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Button
               size="lg"
               variant={cameraEnabled ? "destructive" : "default"}
               onClick={toggleCamera}
-              className={!cameraEnabled ? "gradient-primary text-white" : ""}
+              className={!cameraEnabled ? "gradient-primary text-white hover:opacity-90" : ""}
             >
               {cameraEnabled ? (
                 <>
@@ -315,7 +361,7 @@ const Room = () => {
             </Button>
 
             {cameraEnabled && (
-              <Button size="lg" variant="outline" onClick={enablePiP}>
+              <Button size="lg" variant="outline" onClick={enablePiP} className="border-2">
                 <Maximize2 className="mr-2 h-5 w-5" />
                 Picture-in-Picture
               </Button>

@@ -91,78 +91,84 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-hero">
       <Navbar />
       
       <div className="container mx-auto px-4 pt-24 pb-12">
-        {/* Stats Section */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-8">Your Study Dashboard</h1>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-6 shadow-smooth border-2">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center">
-                  <Flame className="h-6 w-6 text-white" />
+        {/* Quick Stats Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2">Study Dashboard</h1>
+          <p className="text-muted-foreground">Choose a room and start studying with others</p>
+        </div>
+        
+        {/* Compact Stats Bar */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <Link to="/streak">
+            <Card className="p-4 shadow-smooth hover:shadow-md transition-smooth cursor-pointer border-2 hover:border-primary/50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
+                  <Flame className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Current Streak</p>
-                  <p className="text-3xl font-bold">{profile?.current_streak || 0} days</p>
+                  <p className="text-2xl font-bold">{profile?.current_streak || 0}</p>
+                  <p className="text-xs text-muted-foreground">Day Streak</p>
                 </div>
               </div>
             </Card>
+          </Link>
 
-            <Card className="p-6 shadow-smooth border-2">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center">
-                  <Flame className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Longest Streak</p>
-                  <p className="text-3xl font-bold">{profile?.longest_streak || 0} days</p>
-                </div>
+          <Card className="p-4 shadow-smooth border-2">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+                <Clock className="h-5 w-5 text-accent" />
               </div>
-            </Card>
+              <div>
+                <p className="text-2xl font-bold">{profile?.total_study_time || 0}</p>
+                <p className="text-xs text-muted-foreground">Total Minutes</p>
+              </div>
+            </div>
+          </Card>
 
-            <Card className="p-6 shadow-smooth border-2">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center">
-                  <Clock className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Study Time</p>
-                  <p className="text-3xl font-bold">{profile?.total_study_time || 0} mins</p>
-                </div>
+          <Card className="p-4 shadow-smooth border-2">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Video className="h-5 w-5 text-primary" />
               </div>
-            </Card>
-          </div>
+              <div>
+                <p className="text-2xl font-bold">{Math.floor((profile?.total_study_time || 0) / 45)}</p>
+                <p className="text-xs text-muted-foreground">Sessions</p>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Rooms Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-6">Available Study Rooms</h2>
+          <h2 className="text-2xl font-bold mb-4">Study Rooms</h2>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {rooms.map((room) => (
-              <Card key={room.id} className="p-6 shadow-smooth hover:shadow-lg transition-smooth border-2">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
-                    <Video className="h-5 w-5 text-white" />
+              <Card key={room.id} className="overflow-hidden shadow-smooth hover:shadow-lg transition-smooth border-2 hover:border-primary/50">
+                <div className="p-6">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
+                      <Video className="h-6 w-6 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-semibold mb-1 truncate">{room.name}</h3>
+                      <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-muted">
+                        {room.category}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">{room.name}</h3>
-                    <p className="text-sm text-muted-foreground mb-3">{room.description}</p>
-                    <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-muted">
-                      {room.category}
-                    </span>
-                  </div>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{room.description}</p>
+                  <Button
+                    onClick={() => handleJoinRoom(room.id, room.name)}
+                    className="w-full gradient-primary text-white hover:opacity-90"
+                  >
+                    Join Room
+                  </Button>
                 </div>
-                <Button
-                  onClick={() => handleJoinRoom(room.id, room.name)}
-                  className="w-full gradient-primary text-white"
-                >
-                  Join Room
-                </Button>
               </Card>
             ))}
           </div>
