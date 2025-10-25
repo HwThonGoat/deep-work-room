@@ -9,6 +9,9 @@ import Dashboard from "./pages/Dashboard";
 import Room from "./pages/Room";
 import Settings from "./pages/Settings";
 import Streak from "./pages/Streak";
+import Pricing from "./pages/Pricing";
+import Leaderboard from "./pages/Leaderboard";
+import Rules from "./pages/Rules";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +28,9 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/room/:id" element={<Room />} />
           <Route path="/streak" element={<Streak />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/rules" element={<Rules />} />
           <Route path="/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
