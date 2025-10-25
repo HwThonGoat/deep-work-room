@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -17,17 +17,17 @@ const Streak = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    checkAuth();
-    fetchProfile();
-  }, []);
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       navigate("/auth");
     }
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    checkAuth();
+    fetchProfile();
+  }, [checkAuth]);
 
   const fetchProfile = async () => {
     try {
@@ -42,8 +42,9 @@ const Streak = () => {
 
       if (error) throw error;
       setProfile(data);
-    } catch (error: any) {
-      console.error("Error fetching profile:", error);
+    } catch (error) {
+      const typedError = error as { message: string };
+      console.error("Error fetching profile:", typedError.message);
     } finally {
       setLoading(false);
     }
@@ -54,7 +55,7 @@ const Streak = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading your stats...</p>
+          <p className="text-muted-foreground">Đang tải số liệu...</p>
         </div>
       </div>
     );
@@ -66,8 +67,8 @@ const Streak = () => {
       
       <div className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">Your Study Streak</h1>
-          <p className="text-muted-foreground mb-8">Keep up the great work! Consistency is key to success.</p>
+          <h1 className="text-4xl font-bold mb-2">Chuỗi học của bạn</h1>
+          <p className="text-muted-foreground mb-8">Tiếp tục duy trì! Kiên trì là chìa khoá dẫn tới thành công.</p>
           
           {/* Main Streak Display */}
           <Card className="p-8 mb-8 text-center shadow-lg border-2 border-primary/20">
@@ -75,7 +76,7 @@ const Streak = () => {
               <Flame className="h-12 w-12 text-white" />
             </div>
             <h2 className="text-6xl font-bold mb-2 text-primary">{profile?.current_streak || 0}</h2>
-            <p className="text-xl text-muted-foreground">Day Streak</p>
+            <p className="text-xl text-muted-foreground">Chuỗi ngày</p>
           </Card>
 
           {/* Stats Grid */}
@@ -85,7 +86,7 @@ const Streak = () => {
                 <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
                   <Trophy className="h-5 w-5 text-accent" />
                 </div>
-                <h3 className="font-semibold">Longest Streak</h3>
+                  <h3 className="font-semibold">Chuỗi dài nhất</h3>
               </div>
               <p className="text-3xl font-bold">{profile?.longest_streak || 0}</p>
               <p className="text-sm text-muted-foreground">days</p>
@@ -96,10 +97,10 @@ const Streak = () => {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Calendar className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="font-semibold">Total Study Time</h3>
+                <h3 className="font-semibold">Tổng thời gian học</h3>
               </div>
               <p className="text-3xl font-bold">{profile?.total_study_time || 0}</p>
-              <p className="text-sm text-muted-foreground">minutes</p>
+              <p className="text-sm text-muted-foreground">phút</p>
             </Card>
 
             <Card className="p-6 shadow-smooth">
@@ -107,7 +108,7 @@ const Streak = () => {
                 <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
                   <TrendingUp className="h-5 w-5 text-accent" />
                 </div>
-                <h3 className="font-semibold">Sessions</h3>
+                <h3 className="font-semibold">Số phiên</h3>
               </div>
               <p className="text-3xl font-bold">{Math.floor((profile?.total_study_time || 0) / 45)}</p>
               <p className="text-sm text-muted-foreground">completed</p>
@@ -116,20 +117,20 @@ const Streak = () => {
 
           {/* Motivation Message */}
           <Card className="p-6 gradient-primary text-white">
-            <h3 className="text-xl font-semibold mb-2">Keep Going! 🎉</h3>
+            <h3 className="text-xl font-semibold mb-2">Tiếp tục cố gắng! 🎉</h3>
             <p className="mb-4">
               {profile?.current_streak === 0 
-                ? "Start your streak today by completing a study session!"
+                ? "Bắt đầu chuỗi học hôm nay bằng cách hoàn thành một phiên học!"
                 : profile?.current_streak < 7
-                ? `You're on fire! Just ${7 - (profile?.current_streak || 0)} more days to reach a week!`
-                : "Amazing dedication! You're building a strong study habit."}
+                ? `Bạn đang làm rất tốt! Chỉ còn ${7 - (profile?.current_streak || 0)} ngày nữa để đạt 1 tuần!`
+                : "Quá tuyệt! Bạn đang xây dựng thói quen học tập bền vững."}
             </p>
             <Button 
               onClick={() => navigate("/dashboard")}
               variant="secondary"
               className="bg-white text-primary hover:bg-white/90"
             >
-              Start Studying
+              Bắt đầu học
             </Button>
           </Card>
         </div>
