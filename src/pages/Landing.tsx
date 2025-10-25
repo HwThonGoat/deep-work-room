@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Video, Clock, Zap, Users, TrendingUp, Shield } from "lucide-react";
+import { Video, Clock, Zap, Users, TrendingUp, Shield, Facebook, Youtube, Linkedin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const Landing = () => {
@@ -13,11 +13,11 @@ const Landing = () => {
       <section className="bg-gradient-to-r from-orange-100/80 via-yellow-100/80 to-red-100/80 pt-32 pb-20 px-4">
         <div className="container mx-auto text-center animate-slide-up">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-400 to-accent bg-clip-text text-transparent">
-            Your Virtual Study Room
+            Phòng Học Ảo Của Bạn
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Stay focused with silent video rooms, Pomodoro timers, and daily streaks.
-            Join thousands of students achieving their goals together.
+            Tập trung với phòng học video im lặng, hẹn giờ Pomodoro và chuỗi ngày học liên tục.
+            Tham gia cùng hàng ngàn sinh viên đạt được mục tiêu của họ.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/auth">
@@ -25,7 +25,7 @@ const Landing = () => {
                 size="lg"
                 className="gradient-primary shadow-glow text-lg px-8"
               >
-                Start Studying Free
+                Bắt đầu học miễn phí
               </Button>
             </Link>
             <Link to="/pricing">
@@ -34,12 +34,12 @@ const Landing = () => {
                 variant="outline"
                 className="text-lg px-8"
               >
-                View Plans
+                Xem các gói
               </Button>
             </Link>
           </div>
           <div className="mt-8 text-sm text-muted-foreground">
-            ✨ No credit card required • 🎯 Start in 30 seconds
+            ✨ Không cần thẻ tín dụng • 🎯 Bắt đầu trong 30 giây
           </div>
         </div>
       </section>
@@ -194,7 +194,21 @@ const Landing = () => {
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-border">
         <div className="container mx-auto text-center text-muted-foreground">
-          <p>&copy; 2025 HOCA. Built for focused students everywhere.</p>
+          <p className="text-lg font-semibold">HOCA - Phòng học ảo</p>
+          <p className="text-sm">Địa chỉ: 123 Đường Học Tập, Quận 1, TP. Hồ Chí Minh, Việt Nam</p>
+          <p className="text-sm">Liên hệ: +84 123 456 789 | Email: support@hoca.vn</p>
+          <div className="flex justify-center gap-4 mt-4">
+            <a href="https://www.facebook.com/hoca" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+              <Facebook className="h-6 w-6" />
+            </a>
+            <a href="https://www.youtube.com/hoca" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">
+              <Youtube className="h-6 w-6" />
+            </a>
+            <a href="https://www.linkedin.com/company/hoca" target="_blank" rel="noopener noreferrer" className="text-blue-800 hover:underline">
+              <Linkedin className="h-6 w-6" />
+            </a>
+          </div>
+          <p className="text-sm mt-4">&copy; 2025 HOCA. Xây dựng cho sinh viên tập trung khắp mọi nơi.</p>
         </div>
       </footer>
     </div>
