@@ -14,16 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message: string
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
           created_at: string | null
           current_streak: number | null
+          daily_messages_used: number | null
+          daily_sessions_used: number | null
           email: string | null
           full_name: string | null
           id: string
+          last_reset_date: string | null
           last_session_date: string | null
           longest_streak: number | null
+          subscription_expires_at: string | null
+          subscription_plan: string | null
           total_study_time: number | null
           updated_at: string | null
         }
@@ -31,11 +60,16 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string | null
           current_streak?: number | null
+          daily_messages_used?: number | null
+          daily_sessions_used?: number | null
           email?: string | null
           full_name?: string | null
           id: string
+          last_reset_date?: string | null
           last_session_date?: string | null
           longest_streak?: number | null
+          subscription_expires_at?: string | null
+          subscription_plan?: string | null
           total_study_time?: number | null
           updated_at?: string | null
         }
@@ -43,11 +77,16 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string | null
           current_streak?: number | null
+          daily_messages_used?: number | null
+          daily_sessions_used?: number | null
           email?: string | null
           full_name?: string | null
           id?: string
+          last_reset_date?: string | null
           last_session_date?: string | null
           longest_streak?: number | null
+          subscription_expires_at?: string | null
+          subscription_plan?: string | null
           total_study_time?: number | null
           updated_at?: string | null
         }
@@ -57,25 +96,34 @@ export type Database = {
         Row: {
           category: string
           created_at: string | null
+          created_by: string | null
           description: string | null
           id: string
           is_active: boolean | null
+          is_private: boolean | null
+          max_participants: number | null
           name: string
         }
         Insert: {
           category: string
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
           id?: string
           is_active?: boolean | null
+          is_private?: boolean | null
+          max_participants?: number | null
           name: string
         }
         Update: {
           category?: string
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
           id?: string
           is_active?: boolean | null
+          is_private?: boolean | null
+          max_participants?: number | null
           name?: string
         }
         Relationships: []
@@ -87,6 +135,8 @@ export type Database = {
           duration_minutes: number | null
           ended_at: string | null
           id: string
+          is_private: boolean | null
+          room_id: string | null
           room_name: string
           started_at: string | null
           user_id: string
@@ -97,6 +147,8 @@ export type Database = {
           duration_minutes?: number | null
           ended_at?: string | null
           id?: string
+          is_private?: boolean | null
+          room_id?: string | null
           room_name: string
           started_at?: string | null
           user_id: string
@@ -107,6 +159,8 @@ export type Database = {
           duration_minutes?: number | null
           ended_at?: string | null
           id?: string
+          is_private?: boolean | null
+          room_id?: string | null
           room_name?: string
           started_at?: string | null
           user_id?: string
@@ -118,7 +172,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_join_session: { Args: { p_user_id: string }; Returns: boolean }
+      increment_session_usage: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
+      reset_daily_usage: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
