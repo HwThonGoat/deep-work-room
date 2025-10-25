@@ -144,8 +144,31 @@ const Dashboard = () => {
 
         {/* Rooms Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">Study Rooms</h2>
-          
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Study Rooms</h2>
+            <Button className="gradient-primary text-white" onClick={() => navigate("/create-room")}>Create Room</Button>
+          </div>
+
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Search rooms by name or ID..."
+              className="w-full p-2 border rounded-md"
+              onChange={(e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                if (searchTerm === "") {
+                  fetchRooms(); // Reload all rooms when search term is cleared
+                } else {
+                  setRooms((prevRooms) =>
+                    prevRooms.filter((room) =>
+                      room.name.toLowerCase().includes(searchTerm) || room.id.toLowerCase().includes(searchTerm)
+                    )
+                  );
+                }
+              }}
+            />
+          </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {rooms.map((room) => (
               <Card key={room.id} className="overflow-hidden shadow-smooth hover:shadow-lg transition-smooth border-2 hover:border-primary/50">
