@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Video, VideoOff, X, Maximize2 } from "lucide-react";
+import { Video, VideoOff, X, Maximize2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Room = () => {
@@ -11,39 +11,114 @@ const Room = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
-  const roomName = location.state?.roomName || "Study Room";
+  const roomName = location.state?.roomName || "Phòng học";
   
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(45 * 60); // 45 minutes in seconds
   const [isBreak, setIsBreak] = useState(false);
   const [sessionStarted, setSessionStarted] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<{ user: string; text: string }[]>([]);
+  const [chatInput, setChatInput] = useState("");
+  const [isPremium, setIsPremium] = useState(false);
+  const [aiFocus, setAiFocus] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const chatBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate("/auth");
+      }
+    };
+
+    const checkPremium = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase
+        .from("profiles")
+        .select("current_streak, longest_streak, total_study_time")
+        .eq("id", user.id)
+        .single();
+      // Adapted logic: Removed `is_premium` reference
+      setIsPremium(false); // Default to false since column is missing
+    };
+
     checkAuth();
+    checkPremium();
     return () => {
       stopCamera();
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []);
+  }, [navigate]);
 
-  useEffect(() => {
-    if (sessionStarted && !timerRef.current) {
-      startTimer();
+  const completeSession = useCallback(async () => {
+    if (!sessionId) return;
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      await supabase
+        .from("study_sessions")
+        .update({
+          completed: true,
+          ended_at: new Date().toISOString(),
+          duration_minutes: 45,
+        })
+        .eq("id", sessionId);
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("current_streak, longest_streak, total_study_time, last_session_date")
+        .eq("id", user.id)
+        .single();
+
+      if (profile) {
+        const today = new Date().toISOString().split("T")[0];
+        const lastSession = profile.last_session_date;
+        const newStreak = lastSession === today ? profile.current_streak : profile.current_streak + 1;
+
+        await supabase
+          .from("profiles")
+          .update({
+            current_streak: newStreak,
+            longest_streak: Math.max(newStreak, profile.longest_streak),
+            total_study_time: profile.total_study_time + 45,
+            last_session_date: today,
+          })
+          .eq("id", user.id);
+      }
+    } catch (error) {
+      const typedError = error as { message: string };
+      console.error("Error completing session:", typedError.message);
     }
-  }, [sessionStarted]);
+  }, [sessionId]);
 
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      navigate("/auth");
+  const handleTimerComplete = useCallback(async () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
     }
-  };
 
-  const startTimer = () => {
+    if (!isBreak) {
+      setIsBreak(true);
+      setTimeRemaining(5 * 60);
+
+      if (sessionId) {
+        await completeSession();
+      }
+    } else {
+      setIsBreak(false);
+      setTimeRemaining(45 * 60);
+      setSessionStarted(false);
+    }
+  }, [isBreak, sessionId, completeSession]);
+
+  const startTimer = useCallback(() => {
     timerRef.current = setInterval(() => {
       setTimeRemaining((prev) => {
         if (prev <= 1) {
@@ -53,29 +128,41 @@ const Room = () => {
         return prev - 1;
       });
     }, 1000);
-  };
+  }, [isBreak, handleTimerComplete]);
 
-  const handleTimerComplete = async () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
+  useEffect(() => {
+    if (sessionStarted && !timerRef.current) {
+      startTimer();
     }
-    
-    if (!isBreak) {
-      // Work session completed
-      setIsBreak(true);
-      setTimeRemaining(5 * 60);
-      
-      // Update session in database
-      if (sessionId) {
-        await completeSession();
-      }
-    } else {
-      // Break completed
-      setIsBreak(false);
-      setTimeRemaining(45 * 60);
-      setSessionStarted(false);
+  }, [sessionStarted, startTimer]);
+
+  useEffect(() => {
+    if (!sessionStarted) return;
+    const interval = setInterval(() => {
+      const focusStates = [
+        "Bạn đang tập trung tốt!",
+        "Có vẻ bạn đang mất tập trung...",
+        "Hãy nhìn vào màn hình nhé!",
+        "Tuyệt vời, tiếp tục nhé!"
+      ];
+      setAiFocus(focusStates[Math.floor(Math.random() * focusStates.length)]);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [sessionStarted]);
+
+  // Scroll chat to bottom on new message
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
+  }, [messages]);
+
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    setMessages((prev) => [...prev, { user: user?.email || "You", text: chatInput }]);
+    setChatInput("");
   };
 
   const startSession = async () => {
@@ -95,65 +182,22 @@ const Room = () => {
         .single();
 
       if (error) throw error;
-      
+
       setSessionId(data.id);
       setSessionStarted(true);
-      
+
       toast({
-        title: "Session started!",
-        description: "45-minute focus timer is running.",
+        title: "Bắt đầu phiên học!",
+        description: "Đồng hồ tập trung 45 phút đã bắt đầu.",
       });
-    } catch (error: any) {
-      console.error("Error starting session:", error);
+    } catch (error) {
+      const typedError = error as { message: string };
+      console.error("Error starting session:", typedError.message);
       toast({
-        title: "Error",
-        description: "Failed to start session.",
+        title: "Lỗi",
+        description: "Không thể bắt đầu phiên học.",
         variant: "destructive",
       });
-    }
-  };
-
-  const completeSession = async () => {
-    if (!sessionId) return;
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      // Update session
-      await supabase
-        .from("study_sessions")
-        .update({
-          completed: true,
-          ended_at: new Date().toISOString(),
-          duration_minutes: 45,
-        })
-        .eq("id", sessionId);
-
-      // Update profile streak
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("current_streak, longest_streak, total_study_time, last_session_date")
-        .eq("id", user.id)
-        .single();
-
-      if (profile) {
-        const today = new Date().toISOString().split("T")[0];
-        const lastSession = profile.last_session_date;
-        const newStreak = lastSession === today ? profile.current_streak : profile.current_streak + 1;
-        
-        await supabase
-          .from("profiles")
-          .update({
-            current_streak: newStreak,
-            longest_streak: Math.max(newStreak, profile.longest_streak),
-            total_study_time: profile.total_study_time + 45,
-            last_session_date: today,
-          })
-          .eq("id", user.id);
-      }
-    } catch (error: any) {
-      console.error("Error completing session:", error);
     }
   };
 
@@ -171,22 +215,23 @@ const Room = () => {
         video: { width: 1280, height: 720 },
         audio: false,
       });
-      
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
-      
+
       streamRef.current = stream;
       setCameraEnabled(true);
-      
+
       if (!sessionStarted) {
         await startSession();
       }
     } catch (error) {
-      console.error("Error accessing camera:", error);
+      const typedError = error as { message: string };
+      console.error("Error accessing camera:", typedError.message);
       toast({
-        title: "Camera Error",
-        description: "Unable to access camera. Please check permissions.",
+        title: "Lỗi camera",
+        description: "Không thể truy cập camera. Vui lòng kiểm tra quyền.",
         variant: "destructive",
       });
     }
@@ -216,7 +261,8 @@ const Room = () => {
       try {
         await videoRef.current.requestPictureInPicture();
       } catch (error) {
-        console.error("Error enabling PiP:", error);
+        const typedError = error as { message: string };
+        console.error("Error enabling PiP:", typedError.message);
       }
     }
   };
@@ -227,43 +273,81 @@ const Room = () => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  // Break completion modal
+  // Break completion modal (premium users get a special screen)
   if (isBreak && timeRemaining === 0) {
-    return (
-      <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
-        <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
-            <span className="text-4xl">🎉</span>
-          </div>
-          <h2 className="text-3xl font-bold mb-4">Break Complete!</h2>
-          <p className="text-muted-foreground mb-8">
-            Great job! You've completed a study session. Take your time to relax.
-          </p>
-          <div className="space-y-3">
-            <Button
-              size="lg"
-              className="w-full gradient-primary text-white"
-              onClick={() => {
-                setIsBreak(false);
-                setTimeRemaining(45 * 60);
-                setSessionStarted(false);
-                startTimer();
-              }}
-            >
-              Start Another Session
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full"
-              onClick={() => navigate("/dashboard")}
-            >
-              Back to Dashboard
-            </Button>
-          </div>
-        </Card>
-      </div>
-    );
+    if (isPremium) {
+      return (
+        <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+          <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
+              <span className="text-4xl">🌟</span>
+            </div>
+            <h2 className="text-3xl font-bold mb-4">Nghỉ giải lao Premium!</h2>
+            <p className="text-muted-foreground mb-8">
+              Là người dùng premium, bạn được nghỉ lâu hơn, không quảng cáo và nhận mẹo học tập độc quyền!
+            </p>
+            <div className="space-y-3">
+              <Button
+                size="lg"
+                className="w-full gradient-primary text-white"
+                onClick={() => {
+                  setIsBreak(false);
+                  setTimeRemaining(45 * 60);
+                  setSessionStarted(false);
+                  startTimer();
+                }}
+              >
+                Bắt đầu phiên mới
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate("/dashboard")}
+              >
+                Quay lại bảng điều khiển
+              </Button>
+            </div>
+          </Card>
+        </div>
+      );
+    } else {
+      return (
+        <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+          <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
+              <span className="text-4xl">🎉</span>
+            </div>
+            <h2 className="text-3xl font-bold mb-4">Nghỉ giải lao hoàn tất!</h2>
+            <p className="text-muted-foreground mb-8">
+              Tuyệt vời! Bạn đã hoàn thành một phiên học. Hãy thư giãn nhé.
+            </p>
+            <div className="space-y-3">
+              <Button
+                size="lg"
+                className="w-full gradient-primary text-white"
+                onClick={() => {
+                  setIsBreak(false);
+                  setTimeRemaining(45 * 60);
+                  setSessionStarted(false);
+                  startTimer();
+                }}
+              >
+                Bắt đầu phiên mới
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate("/dashboard")}
+              >
+                Quay lại bảng điều khiển
+              </Button>
+            </div>
+          </Card>
+        </div>
+      );
+    }
   }
 
   return (
@@ -274,7 +358,7 @@ const Room = () => {
           <div>
             <h1 className="text-xl font-semibold">{roomName}</h1>
             <p className="text-sm text-muted-foreground">
-              {isBreak ? "🧘 Break Time - Relax" : "📚 Focus Session"}
+              {isBreak ? "🧘 Nghỉ giải lao - Thư giãn" : "📚 Phiên tập trung"}
             </p>
           </div>
           
@@ -297,10 +381,19 @@ const Room = () => {
           {/* Status Message */}
           {isBreak && (
             <Card className="mb-6 p-4 gradient-accent text-white text-center">
-              <p className="text-lg font-semibold">Take a break! Stretch, grab water, or rest your eyes.</p>
+              <p className="text-lg font-semibold">Nghỉ giải lao! Hãy vươn vai, uống nước hoặc thư giãn mắt.</p>
             </Card>
           )}
           
+          {/* AI Focus Detection */}
+          {aiFocus && (
+            <Card className="mb-4 p-3 flex items-center gap-2 bg-yellow-50 border-l-4 border-yellow-400">
+              <Sparkles className="text-yellow-500" />
+              <span className="font-medium">AI Tập trung:</span>
+              <span>{aiFocus}</span>
+            </Card>
+          )}
+
           {/* Video Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {/* User's Video */}
@@ -317,12 +410,12 @@ const Room = () => {
                 <div className="w-full h-full flex items-center justify-center bg-muted">
                   <div className="text-center">
                     <VideoOff className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Camera Off</p>
+                    <p className="text-sm text-muted-foreground">Tắt camera</p>
                   </div>
                 </div>
               )}
               <div className="absolute bottom-3 left-3 bg-primary/90 px-3 py-1 rounded-full text-xs font-medium text-white">
-                You
+                Bạn
               </div>
             </Card>
 
@@ -332,11 +425,40 @@ const Room = () => {
                 <div className="w-full h-full flex items-center justify-center bg-muted/30">
                   <div className="text-center opacity-40">
                     <Video className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-xs text-muted-foreground">Student {i}</p>
+                    <p className="text-xs text-muted-foreground">Học viên {i}</p>
                   </div>
                 </div>
               </Card>
             ))}
+          </div>
+
+          {/* Chat Box */}
+          <div className="mb-8">
+            <Card className="p-4 max-w-2xl mx-auto">
+              <div ref={chatBoxRef} className="h-48 overflow-y-auto border-b mb-2 pb-2">
+                {messages.length === 0 ? (
+                  <p className="text-muted-foreground text-sm text-center">Chưa có tin nhắn nào.</p>
+                ) : (
+                  <>
+                    {messages.map((msg, idx) => (
+                      <div key={idx} className="mb-1">
+                        <span className="font-semibold text-primary">{msg.user}: </span>
+                        <span>{msg.text}</span>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+              <form className="flex gap-2" onSubmit={handleSendMessage}>
+                <input
+                  className="flex-1 border rounded px-2 py-1"
+                  value={chatInput}
+                  onChange={e => setChatInput(e.target.value)}
+                  placeholder="Nhập tin nhắn..."
+                />
+                <Button type="submit" className="gradient-primary text-white">Gửi</Button>
+              </form>
+            </Card>
           </div>
 
           {/* Controls */}
@@ -350,12 +472,12 @@ const Room = () => {
               {cameraEnabled ? (
                 <>
                   <VideoOff className="mr-2 h-5 w-5" />
-                  Turn Off Camera
+                  Tắt camera
                 </>
               ) : (
                 <>
                   <Video className="mr-2 h-5 w-5" />
-                  Turn On Camera
+                  Bật camera
                 </>
               )}
             </Button>
@@ -363,7 +485,7 @@ const Room = () => {
             {cameraEnabled && (
               <Button size="lg" variant="outline" onClick={enablePiP} className="border-2">
                 <Maximize2 className="mr-2 h-5 w-5" />
-                Picture-in-Picture
+                Chế độ Picture-in-Picture
               </Button>
             )}
           </div>

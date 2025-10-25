@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -15,19 +15,14 @@ const Settings = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    checkAuth();
-    fetchProfile();
-  }, []);
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       navigate("/auth");
     }
-  };
+  }, [navigate]);
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -44,9 +39,15 @@ const Settings = () => {
         setFullName(data.full_name || "");
       }
     } catch (error) {
-      console.error("Error fetching profile:", error);
+      const typedError = error as { message: string };
+      console.error("Error fetching profile:", typedError.message);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    checkAuth();
+    fetchProfile();
+  }, [checkAuth, fetchProfile]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,10 +68,11 @@ const Settings = () => {
         title: "Success",
         description: "Profile updated successfully.",
       });
-    } catch (error: any) {
+    } catch (error) {
+      const typedError = error as { message: string };
       toast({
         title: "Error",
-        description: error.message,
+        description: typedError.message,
         variant: "destructive",
       });
     } finally {
@@ -83,25 +85,25 @@ const Settings = () => {
       <Navbar />
       
       <div className="container mx-auto px-4 pt-24 pb-12 max-w-2xl">
-        <h1 className="text-4xl font-bold mb-8">Settings</h1>
+  <h1 className="text-4xl font-bold mb-8">Cài đặt</h1>
 
         <Card className="shadow-smooth">
           <CardHeader>
-            <CardTitle>Profile Settings</CardTitle>
+            <CardTitle>Cài đặt hồ sơ</CardTitle>
             <CardDescription>
-              Update your personal information
+              Cập nhật thông tin cá nhân của bạn
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleUpdateProfile} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="fullName">Họ và tên</Label>
                 <Input
                   id="fullName"
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Your Name"
+                  placeholder="Họ và tên"
                 />
               </div>
 
@@ -115,7 +117,7 @@ const Settings = () => {
                   className="bg-muted"
                 />
                 <p className="text-sm text-muted-foreground">
-                  Email cannot be changed
+                  Email không thể thay đổi
                 </p>
               </div>
 
@@ -124,7 +126,7 @@ const Settings = () => {
                 className="gradient-primary text-white"
                 disabled={loading}
               >
-                {loading ? "Updating..." : "Update Profile"}
+                {loading ? "Đang cập nhật..." : "Cập nhật hồ sơ"}
               </Button>
             </form>
           </CardContent>
@@ -132,14 +134,14 @@ const Settings = () => {
 
         <Card className="shadow-smooth mt-6">
           <CardHeader>
-            <CardTitle>Theme</CardTitle>
+            <CardTitle>Giao diện</CardTitle>
             <CardDescription>
-              Your theme preference is saved automatically
+              Tùy chọn giao diện của bạn được lưu tự động
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Use the theme toggle in the navigation bar to switch between light and dark modes.
+              Sử dụng công tắc giao diện trên thanh điều hướng để chuyển giữa chế độ sáng và tối.
             </p>
           </CardContent>
         </Card>

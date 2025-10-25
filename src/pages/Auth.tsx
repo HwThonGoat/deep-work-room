@@ -49,10 +49,11 @@ const Auth = () => {
       });
 
       navigate("/dashboard");
-    } catch (error: any) {
+    } catch (error) {
+      const typedError = error as { message: string };
       toast({
         title: "Error",
-        description: error.message,
+        description: typedError.message,
         variant: "destructive",
       });
     } finally {
@@ -78,10 +79,11 @@ const Auth = () => {
       });
 
       navigate("/dashboard");
-    } catch (error: any) {
+    } catch (error) {
+      const typedError = error as { message: string };
       toast({
         title: "Error",
-        description: error.message,
+        description: typedError.message,
         variant: "destructive",
       });
     } finally {
@@ -99,10 +101,11 @@ const Auth = () => {
       });
 
       if (error) throw error;
-    } catch (error: any) {
+    } catch (error) {
+      const typedError = error as { message: string };
       toast({
         title: "Error",
-        description: error.message,
+        description: typedError.message,
         variant: "destructive",
       });
     }
@@ -114,19 +117,19 @@ const Auth = () => {
       
       <div className="container mx-auto px-4 pt-32 pb-20 flex items-center justify-center">
         <Card className="w-full max-w-md shadow-lg">
-          <CardHeader className="text-center">
+            <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Welcome to HOCA
+              Chào mừng đến HOCA
             </CardTitle>
             <CardDescription>
-              Start your focused study journey today
+              Bắt đầu hành trình học tập có tập trung ngay hôm nay
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="signin">Sign In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                <TabsTrigger value="signin">Đăng nhập</TabsTrigger>
+                <TabsTrigger value="signup">Đăng ký</TabsTrigger>
               </TabsList>
 
               <TabsContent value="signin">
@@ -215,7 +218,7 @@ const Auth = () => {
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                <span className="bg-card px-2 text-muted-foreground">Hoặc tiếp tục với</span>
               </div>
             </div>
 
@@ -243,7 +246,7 @@ const Auth = () => {
                   fill="#EA4335"
                 />
               </svg>
-              Sign in with Google
+              Đăng nhập với Google
             </Button>
           </CardContent>
         </Card>

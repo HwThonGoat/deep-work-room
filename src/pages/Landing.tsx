@@ -13,22 +13,22 @@ const Landing = () => {
       <section className="pt-32 pb-20 px-4 gradient-hero">
         <div className="container mx-auto max-w-6xl text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
-            Study Together,
+            Học cùng nhau,
             <br />
-            Stay Focused
+            Giữ vững tập trung
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join silent video rooms with students worldwide. Build study streaks, stay accountable, and achieve your goals.
+            Tham gia phòng video im lặng cùng sinh viên trên toàn thế giới. Xây dựng chuỗi học, giữ trách nhiệm và đạt được mục tiêu của bạn.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link to="/auth">
               <Button size="lg" className="gradient-primary text-white text-lg px-8 h-14 shadow-smooth hover:shadow-lg transition-smooth">
-                Start Studying Now
+                Bắt đầu học ngay
               </Button>
             </Link>
             <Link to="/auth">
               <Button size="lg" variant="outline" className="text-lg px-8 h-14">
-                Learn More
+                Tìm hiểu thêm
               </Button>
             </Link>
           </div>
@@ -39,7 +39,7 @@ const Landing = () => {
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Everything You Need to Focus
+            Mọi thứ bạn cần để tập trung
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -47,9 +47,9 @@ const Landing = () => {
               <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
                 <Video className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Video Accountability</h3>
+              <h3 className="text-xl font-semibold mb-2">Trách nhiệm bằng video</h3>
               <p className="text-muted-foreground">
-                See others studying in real-time. No audio, just silent focus and presence.
+                Quan sát người khác đang học trong thời gian thực. Không có âm thanh, chỉ giữ im lặng và tập trung.
               </p>
             </Card>
 
@@ -57,9 +57,9 @@ const Landing = () => {
               <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center mb-4">
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Study Streaks</h3>
+              <h3 className="text-xl font-semibold mb-2">Chuỗi học</h3>
               <p className="text-muted-foreground">
-                Track daily progress and build momentum. Watch your streak grow day by day.
+                Theo dõi tiến trình hằng ngày và duy trì đà. Xem chuỗi học của bạn tăng lên từng ngày.
               </p>
             </Card>
 
@@ -67,9 +67,9 @@ const Landing = () => {
               <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
                 <Clock className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Pomodoro Timer</h3>
+              <h3 className="text-xl font-semibold mb-2">Hẹn giờ Pomodoro</h3>
               <p className="text-muted-foreground">
-                Built-in 45-minute focus sessions with 5-minute breaks for sustainable studying.
+                Phiên tập trung 45 phút tích hợp với nghỉ 5 phút, giúp học bền vững.
               </p>
             </Card>
 
@@ -77,9 +77,9 @@ const Landing = () => {
               <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center mb-4">
                 <Users className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Join Any Room</h3>
+              <h3 className="text-xl font-semibold mb-2">Tham gia phòng bất kỳ</h3>
               <p className="text-muted-foreground">
-                Choose from multiple study rooms by subject or join the general study hall.
+                Chọn từ nhiều phòng học theo môn hoặc tham gia phòng học chung.
               </p>
             </Card>
 
@@ -87,9 +87,9 @@ const Landing = () => {
               <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
                 <Zap className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Picture-in-Picture</h3>
+              <h3 className="text-xl font-semibold mb-2">Chế độ Hình ảnh trong Ảnh</h3>
               <p className="text-muted-foreground">
-                Keep the study room visible while working in other apps or tabs.
+                Giữ phòng học hiển thị khi bạn làm việc trong ứng dụng hoặc tab khác.
               </p>
             </Card>
 
@@ -97,9 +97,9 @@ const Landing = () => {
               <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center mb-4">
                 <Shield className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Privacy First</h3>
+              <h3 className="text-xl font-semibold mb-2">Ưu tiên quyền riêng tư</h3>
               <p className="text-muted-foreground">
-                Audio off by default. Your privacy matters. Study without distractions.
+                Mặc định tắt âm thanh. Quyền riêng tư của bạn quan trọng — học tập không gián đoạn.
               </p>
             </Card>
           </div>
@@ -110,7 +110,7 @@ const Landing = () => {
       <section className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            How HOCA Works
+            HOCA hoạt động như thế nào
           </h2>
           
           <div className="space-y-8">
@@ -119,9 +119,9 @@ const Landing = () => {
                 1
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">Choose Your Room</h3>
+                <h3 className="text-xl font-semibold mb-2">Chọn phòng học</h3>
                 <p className="text-muted-foreground">
-                  Select a study room based on your subject or mood. Join the general study hall or pick a specialized room.
+                  Chọn phòng học theo môn học hoặc tâm trạng. Tham gia phòng học chung hoặc chọn phòng chuyên môn.
                 </p>
               </div>
             </div>
@@ -131,9 +131,9 @@ const Landing = () => {
                 2
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">Turn On Your Camera</h3>
+                <h3 className="text-xl font-semibold mb-2">Bật camera của bạn</h3>
                 <p className="text-muted-foreground">
-                  Enable your camera (audio stays off). See others studying and feel the accountability boost.
+                  Bật camera (âm thanh vẫn tắt). Quan sát người khác học và tăng trách nhiệm với bản thân.
                 </p>
               </div>
             </div>
@@ -143,9 +143,9 @@ const Landing = () => {
                 3
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">Start Your Session</h3>
+                <h3 className="text-xl font-semibold mb-2">Bắt đầu phiên học</h3>
                 <p className="text-muted-foreground">
-                  The 45-minute timer begins automatically. Focus on your work while others do the same.
+                  Đồng hồ 45 phút sẽ bắt đầu tự động. Tập trung làm việc trong khi những người khác cũng đang học.
                 </p>
               </div>
             </div>
@@ -155,9 +155,9 @@ const Landing = () => {
                 4
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">Build Your Streak</h3>
+                <h3 className="text-xl font-semibold mb-2">Xây dựng chuỗi học</h3>
                 <p className="text-muted-foreground">
-                  Complete your session and watch your daily streak grow. Stay consistent and reach your goals.
+                  Hoàn thành phiên học và xem chuỗi ngày của bạn tăng lên. Duy trì thói quen để đạt mục tiêu.
                 </p>
               </div>
             </div>
@@ -169,14 +169,14 @@ const Landing = () => {
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Ready to Transform Your Study Habits?
+            Sẵn sàng thay đổi thói quen học tập?
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Join thousands of students who are building better focus and achieving their goals with HOCA.
+            Tham gia hàng ngàn sinh viên đang cải thiện khả năng tập trung và đạt mục tiêu cùng HOCA.
           </p>
           <Link to="/auth">
             <Button size="lg" className="gradient-primary text-white text-lg px-8 h-14 shadow-smooth hover:shadow-lg transition-smooth">
-              Get Started Free
+              Bắt đầu miễn phí
             </Button>
           </Link>
         </div>

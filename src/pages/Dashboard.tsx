@@ -28,17 +28,17 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate("/auth");
+      }
+    };
+
     checkAuth();
     fetchProfile();
     fetchRooms();
-  }, []);
-
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      navigate("/auth");
-    }
-  };
+  }, [navigate]);
 
   const fetchProfile = async () => {
     try {
@@ -53,8 +53,9 @@ const Dashboard = () => {
 
       if (error) throw error;
       setProfile(data);
-    } catch (error: any) {
-      console.error("Error fetching profile:", error);
+    } catch (error) {
+      const typedError = error as { message: string };
+      console.error("Error fetching profile:", typedError.message);
     } finally {
       setLoading(false);
     }
@@ -70,8 +71,9 @@ const Dashboard = () => {
 
       if (error) throw error;
       setRooms(data || []);
-    } catch (error: any) {
-      console.error("Error fetching rooms:", error);
+    } catch (error) {
+      const typedError = error as { message: string };
+      console.error("Error fetching rooms:", typedError.message);
     }
   };
 
@@ -97,8 +99,8 @@ const Dashboard = () => {
       <div className="container mx-auto px-4 pt-24 pb-12">
         {/* Quick Stats Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Study Dashboard</h1>
-          <p className="text-muted-foreground">Choose a room and start studying with others</p>
+          <h1 className="text-4xl font-bold mb-2">Trang chủ</h1>
+          <p className="text-muted-foreground">Chọn một phòng và bắt đầu học cùng mọi người</p>
         </div>
         
         {/* Compact Stats Bar */}
@@ -111,7 +113,7 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{profile?.current_streak || 0}</p>
-                  <p className="text-xs text-muted-foreground">Day Streak</p>
+                  <p className="text-xs text-muted-foreground">Chuỗi ngày học</p>
                 </div>
               </div>
             </Card>
@@ -124,7 +126,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold">{profile?.total_study_time || 0}</p>
-                <p className="text-xs text-muted-foreground">Total Minutes</p>
+                <p className="text-xs text-muted-foreground">Tổng số phút</p>
               </div>
             </div>
           </Card>
@@ -136,7 +138,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold">{Math.floor((profile?.total_study_time || 0) / 45)}</p>
-                <p className="text-xs text-muted-foreground">Sessions</p>
+                <p className="text-xs text-muted-foreground">Số phiên học</p>
               </div>
             </div>
           </Card>
@@ -144,15 +146,15 @@ const Dashboard = () => {
 
         {/* Rooms Section */}
         <div>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Study Rooms</h2>
-            <Button className="gradient-primary text-white" onClick={() => navigate("/create-room")}>Create Room</Button>
+            <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Phòng học</h2>
+            <Button className="gradient-primary text-white" onClick={() => navigate("/create-room")}>Tạo phòng</Button>
           </div>
 
           <div className="mb-4">
             <input
               type="text"
-              placeholder="Search rooms by name or ID..."
+              placeholder="Tìm kiếm phòng theo tên hoặc ID..."
               className="w-full p-2 border rounded-md"
               onChange={(e) => {
                 const searchTerm = e.target.value.toLowerCase();

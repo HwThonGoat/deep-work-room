@@ -58,7 +58,7 @@ const Navbar = () => {
           {user ? (
             <>
               <Link to="/dashboard">
-                <Button variant="ghost">Bảng điều khiển</Button>
+                <Button variant="ghost">Trang chủ</Button>
               </Link>
               <Link to="/streak">
                 <Button variant="ghost">Chuỗi học tập</Button>
