@@ -227,10 +227,11 @@ const Room = () => {
         await startSession();
       }
     } catch (error) {
-      console.error("Error accessing camera:", error);
+      const typedError = error as { message: string };
+      console.error("Error accessing camera:", typedError.message);
       toast({
-        title: "Camera Error",
-        description: "Unable to access camera. Please check permissions.",
+        title: "Lỗi camera",
+        description: "Không thể truy cập camera. Vui lòng kiểm tra quyền.",
         variant: "destructive",
       });
     }
@@ -260,7 +261,8 @@ const Room = () => {
       try {
         await videoRef.current.requestPictureInPicture();
       } catch (error) {
-        console.error("Error enabling PiP:", error);
+        const typedError = error as { message: string };
+        console.error("Error enabling PiP:", typedError.message);
       }
     }
   };
@@ -271,7 +273,7 @@ const Room = () => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  // Break completion modal
+  // Break completion modal (premium users get a special screen)
   if (isBreak && timeRemaining === 0) {
     if (isPremium) {
       return (
