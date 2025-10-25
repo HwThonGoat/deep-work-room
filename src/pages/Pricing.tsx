@@ -6,9 +6,9 @@ import Navbar from "@/components/Navbar";
 
 const Pricing = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-amber-50">
       <Navbar />
-      
+
       <div className="pt-32 pb-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
@@ -29,7 +29,7 @@ const Pricing = () => {
                 </div>
                 <h3 className="text-2xl font-bold">Miễn phí</h3>
               </div>
-              
+
               <div className="mb-6">
                 <div className="text-4xl font-bold">0 VNĐ</div>
                 <div className="text-muted-foreground">mãi mãi</div>
@@ -82,14 +82,14 @@ const Pricing = () => {
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Phổ biến nhất
               </div>
-              
+
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
                   <Crown className="h-5 w-5 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold">Premium</h3>
               </div>
-              
+
               <div className="mb-6">
                 <div className="text-4xl font-bold">79,000 VNĐ</div>
                 <div className="text-muted-foreground">mỗi tháng</div>
@@ -135,7 +135,7 @@ const Pricing = () => {
                 </li>
               </ul>
 
-              <Link to="/auth">
+              <Link to="/payment?plan=premium">
                 <Button className="w-full gradient-primary text-white">
                   Nâng cấp ngay
                 </Button>
@@ -150,7 +150,7 @@ const Pricing = () => {
                 </div>
                 <h3 className="text-2xl font-bold">Premium Năm</h3>
               </div>
-              
+
               <div className="mb-6">
                 <div className="text-4xl font-bold">790,000 VNĐ</div>
                 <div className="text-muted-foreground">mỗi năm</div>
@@ -192,7 +192,7 @@ const Pricing = () => {
                 </li>
               </ul>
 
-              <Link to="/auth">
+              <Link to="/payment?plan=yearly">
                 <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-white">
                   Nâng cấp năm
                 </Button>
@@ -202,7 +202,7 @@ const Pricing = () => {
 
           <div className="mt-16 text-center">
             <p className="text-muted-foreground">
-              Tất cả các gói bao gồm đảm bảo hoàn tiền trong 14 ngày. 
+              Tất cả các gói bao gồm đảm bảo hoàn tiền trong 14 ngày.
               Không hài lòng? Chúng tôi sẽ hoàn lại tiền, không cần hỏi.
             </p>
           </div>

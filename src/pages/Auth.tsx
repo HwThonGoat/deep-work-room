@@ -112,12 +112,12 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen gradient-hero">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 pt-32 pb-20 flex items-center justify-center">
         <Card className="w-full max-w-md shadow-lg">
-            <CardHeader className="text-center">
+          <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               Chào mừng đến HOCA
             </CardTitle>

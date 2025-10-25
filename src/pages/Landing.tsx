@@ -6,31 +6,40 @@ import Navbar from "@/components/Navbar";
 
 const Landing = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50">
       <Navbar />
-      
+
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 gradient-hero">
-        <div className="container mx-auto max-w-6xl text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
-            Học cùng nhau,
-            <br />
-            Giữ vững tập trung
+      <section className="bg-gradient-to-r from-orange-100/80 via-yellow-100/80 to-red-100/80 pt-32 pb-20 px-4">
+        <div className="container mx-auto text-center animate-slide-up">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-400 to-accent bg-clip-text text-transparent">
+            Your Virtual Study Room
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Tham gia phòng video im lặng cùng sinh viên trên toàn thế giới. Xây dựng chuỗi học, giữ trách nhiệm và đạt được mục tiêu của bạn.
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Stay focused with silent video rooms, Pomodoro timers, and daily streaks.
+            Join thousands of students achieving their goals together.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/auth">
-              <Button size="lg" className="gradient-primary text-white text-lg px-8 h-14 shadow-smooth hover:shadow-lg transition-smooth">
-                Bắt đầu học ngay
+              <Button
+                size="lg"
+                className="gradient-primary shadow-glow text-lg px-8"
+              >
+                Start Studying Free
               </Button>
             </Link>
-            <Link to="/auth">
-              <Button size="lg" variant="outline" className="text-lg px-8 h-14">
-                Tìm hiểu thêm
+            <Link to="/pricing">
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8"
+              >
+                View Plans
               </Button>
             </Link>
+          </div>
+          <div className="mt-8 text-sm text-muted-foreground">
+            ✨ No credit card required • 🎯 Start in 30 seconds
           </div>
         </div>
       </section>
@@ -41,7 +50,7 @@ const Landing = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Mọi thứ bạn cần để tập trung
           </h2>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="p-6 shadow-smooth hover:shadow-lg transition-smooth border-2">
               <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
@@ -107,12 +116,12 @@ const Landing = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-4 bg-muted/30">
+      <section className="py-20 px-4 bg-gradient-to-r from-amber-50/60 via-orange-50/60 to-yellow-50/60">
         <div className="container mx-auto max-w-4xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             HOCA hoạt động như thế nào
           </h2>
-          
+
           <div className="space-y-8">
             <div className="flex gap-6 items-start">
               <div className="w-12 h-12 rounded-full gradient-primary text-white flex items-center justify-center font-bold text-xl flex-shrink-0">
