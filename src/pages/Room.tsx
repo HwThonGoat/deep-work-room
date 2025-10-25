@@ -12,7 +12,7 @@ const Room = () => {
   const location = useLocation();
   const { toast } = useToast();
   const roomName = location.state?.roomName || "Phòng học";
-  
+
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(45 * 60); // 45 minutes in seconds
   const [isBreak, setIsBreak] = useState(false);
@@ -278,7 +278,7 @@ const Room = () => {
   if (isBreak && timeRemaining === 0) {
     if (isPremium) {
       return (
-        <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center">
           <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
               <span className="text-4xl">🌟</span>
@@ -314,7 +314,7 @@ const Room = () => {
       );
     } else {
       return (
-        <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center">
           <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
               <span className="text-4xl">🎉</span>
@@ -356,7 +356,7 @@ const Room = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -368,9 +368,8 @@ const Room = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className={`text-2xl font-bold px-4 py-2 rounded-lg ${
-              isBreak ? "gradient-accent text-white" : "gradient-primary text-white"
-            }`}>
+            <div className={`text-2xl font-bold px-4 py-2 rounded-lg ${isBreak ? "gradient-accent text-white" : "gradient-primary text-white"
+              }`}>
               {formatTime(timeRemaining)}
             </div>
             <Button variant="ghost" size="icon" onClick={toggleChatBox}>
@@ -421,7 +420,7 @@ const Room = () => {
               <p className="text-lg font-semibold">Nghỉ giải lao! Hãy vươn vai, uống nước hoặc thư giãn mắt.</p>
             </Card>
           )}
-          
+
           {/* AI Focus Detection */}
           {aiFocus && (
             <Card className="mb-4 p-3 flex items-center gap-2 bg-yellow-50 border-l-4 border-yellow-400">

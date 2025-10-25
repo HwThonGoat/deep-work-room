@@ -13,6 +13,8 @@ import Pricing from "./pages/Pricing";
 import Leaderboard from "./pages/Leaderboard";
 import Rules from "./pages/Rules";
 import NotFound from "./pages/NotFound";
+import Payment from "./pages/Payment";
+import CreateRoom from "./pages/CreateRoom";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ const App = () => (
           <Route path="/room/:id" element={<Room />} />
           <Route path="/streak" element={<Streak />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/create-room" element={<CreateRoom />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/rules" element={<Rules />} />
           <Route path="/settings" element={<Settings />} />

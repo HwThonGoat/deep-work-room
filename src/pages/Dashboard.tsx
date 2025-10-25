@@ -100,16 +100,16 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 pt-24 pb-12">
         {/* Quick Stats Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Trang chủ</h1>
           <p className="text-muted-foreground">Chọn một phòng và bắt đầu học cùng mọi người</p>
         </div>
-        
+
         {/* Compact Stats Bar */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           <Link to="/streak">
@@ -153,7 +153,7 @@ const Dashboard = () => {
 
         {/* Rooms Section */}
         <div>
-            <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Phòng học</h2>
             <Button className="gradient-primary text-white" onClick={() => navigate("/create-room")}>Tạo phòng</Button>
           </div>

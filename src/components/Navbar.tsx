@@ -40,10 +40,13 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-      <Link to="/" className="flex items-center gap-3 transition-smooth hover:opacity-80">
-        <img src={logo} alt="HOCA Logo" className="h-16 w-16" />
-        <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">HOCA</span>
-      </Link>
+        <Link to="/" className="flex items-center gap-3 transition-smooth hover:opacity-80">
+          <img src={logo} alt="HOCA Logo" className="h-16 w-16" />
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">HOCA</span>
+            <span className="text-sm font-bold text-orange-500 animate-pulse">🔥 Bật Cam Bật Mode Học</span>
+          </div>
+        </Link>
 
         <div className="flex items-center gap-4">
           <Button
