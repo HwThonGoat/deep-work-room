@@ -72,6 +72,9 @@ const Navbar = () => {
               <Link to="/settings">
                 <Button variant="ghost">Cài đặt</Button>
               </Link>
+              <Link to="/rules">
+                <Button variant="ghost">Quy tắc</Button>
+              </Link>
               <Button variant="ghost" size="icon" onClick={handleSignOut}>
                 <LogOut className="h-5 w-5" />
               </Button>
