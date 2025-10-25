@@ -22,6 +22,7 @@ const Room = () => {
   const [chatInput, setChatInput] = useState("");
   const [isPremium, setIsPremium] = useState(false);
   const [aiFocus, setAiFocus] = useState<string | null>(null);
+  const [isChatBoxVisible, setIsChatBoxVisible] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -350,6 +351,10 @@ const Room = () => {
     }
   }
 
+  const toggleChatBox = () => {
+    setIsChatBoxVisible((prev) => !prev);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
@@ -361,13 +366,16 @@ const Room = () => {
               {isBreak ? "🧘 Nghỉ giải lao - Thư giãn" : "📚 Phiên tập trung"}
             </p>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <div className={`text-2xl font-bold px-4 py-2 rounded-lg ${
               isBreak ? "gradient-accent text-white" : "gradient-primary text-white"
             }`}>
               {formatTime(timeRemaining)}
             </div>
+            <Button variant="ghost" size="icon" onClick={toggleChatBox}>
+              💬
+            </Button>
             <Button variant="ghost" size="icon" onClick={handleLeaveRoom}>
               <X className="h-5 w-5" />
             </Button>
@@ -378,6 +386,35 @@ const Room = () => {
       {/* Main Content */}
       <div className="pt-24 pb-8 px-4">
         <div className="container mx-auto max-w-6xl">
+          {/* Chat Box */}
+          {isChatBoxVisible && (
+            <div className="fixed top-16 right-0 w-80 h-[calc(100%-4rem)] bg-white shadow-lg border-l border-border z-50 flex flex-col">
+              <Card className="p-4 flex-1 flex flex-col">
+                <div ref={chatBoxRef} className="flex-1 overflow-y-auto border-b mb-2 pb-2">
+                  {messages.length === 0 ? (
+                    <p className="text-muted-foreground text-sm text-center">Chưa có tin nhắn nào.</p>
+                  ) : (
+                    messages.map((msg, idx) => (
+                      <div key={idx} className="mb-1">
+                        <span className="font-semibold text-primary">{msg.user}: </span>
+                        <span>{msg.text}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+                <form className="flex gap-2 mt-2" onSubmit={handleSendMessage}>
+                  <input
+                    className="flex-1 border rounded px-2 py-1"
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    placeholder="Nhập tin nhắn..."
+                  />
+                  <Button type="submit" className="gradient-primary text-white">Gửi</Button>
+                </form>
+              </Card>
+            </div>
+          )}
+
           {/* Status Message */}
           {isBreak && (
             <Card className="mb-6 p-4 gradient-accent text-white text-center">
@@ -430,35 +467,6 @@ const Room = () => {
                 </div>
               </Card>
             ))}
-          </div>
-
-          {/* Chat Box */}
-          <div className="mb-8">
-            <Card className="p-4 max-w-2xl mx-auto">
-              <div ref={chatBoxRef} className="h-48 overflow-y-auto border-b mb-2 pb-2">
-                {messages.length === 0 ? (
-                  <p className="text-muted-foreground text-sm text-center">Chưa có tin nhắn nào.</p>
-                ) : (
-                  <>
-                    {messages.map((msg, idx) => (
-                      <div key={idx} className="mb-1">
-                        <span className="font-semibold text-primary">{msg.user}: </span>
-                        <span>{msg.text}</span>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-              <form className="flex gap-2" onSubmit={handleSendMessage}>
-                <input
-                  className="flex-1 border rounded px-2 py-1"
-                  value={chatInput}
-                  onChange={e => setChatInput(e.target.value)}
-                  placeholder="Nhập tin nhắn..."
-                />
-                <Button type="submit" className="gradient-primary text-white">Gửi</Button>
-              </form>
-            </Card>
           </div>
 
           {/* Controls */}
