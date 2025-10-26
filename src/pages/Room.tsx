@@ -381,8 +381,8 @@ const Room = () => {
   if (isBreak && timeRemaining === 0) {
     if (isPremium) {
       return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center">
-          <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
+        <div className="min-h-screen bg-orange-50 dark:bg-background flex items-center justify-center">
+          <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg bg-white/90 dark:bg-card">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
               <span className="text-4xl">🌟</span>
             </div>
@@ -417,8 +417,8 @@ const Room = () => {
       );
     } else {
       return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center">
-          <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg">
+        <div className="min-h-screen bg-orange-50 dark:bg-background flex items-center justify-center">
+          <Card className="max-w-md w-full mx-4 p-8 text-center shadow-lg bg-white/90 dark:bg-card">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-accent mb-6">
               <span className="text-4xl">🎉</span>
             </div>
@@ -473,7 +473,7 @@ const Room = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+    <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground">
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -505,8 +505,8 @@ const Room = () => {
             <div
               className={`fixed bottom-8 right-8 z-50 flex flex-col items-end ${isChatBoxMaximized ? 'w-full h-[calc(100%-5rem)] left-0 top-20 right-0 bottom-0' : 'w-[380px] max-w-full'} transition-all duration-300`}
             >
-              <Card className={`flex flex-col bg-white/95 shadow-2xl border-2 border-primary rounded-2xl ${isChatBoxMaximized ? 'h-full' : 'h-[500px]'} w-full animate-fade-in`}>
-                <div className="flex items-center justify-between px-4 py-2 border-b bg-gradient-to-r from-orange-100 via-amber-100 to-yellow-100 rounded-t-2xl">
+              <Card className={`flex flex-col bg-white/90 dark:bg-card shadow-2xl border-2 border-primary rounded-2xl ${isChatBoxMaximized ? 'h-full' : 'h-[500px]'} w-full animate-fade-in`}>
+                <div className="flex items-center justify-between px-4 py-2 border-b bg-gradient-to-r from-orange-100 via-amber-100 to-yellow-100 dark:from-orange-900/20 dark:via-amber-900/20 dark:to-yellow-900/20 rounded-t-2xl">
                   <span className="font-bold text-lg text-primary flex items-center gap-2">💬 Chat nhóm</span>
                   <div className="flex gap-2">
                     <Button variant="ghost" size="icon" onClick={maximizeChatBox} className="hover:bg-orange-100">
@@ -517,7 +517,7 @@ const Room = () => {
                     </Button>
                   </div>
                 </div>
-                <div ref={chatBoxRef} className="flex-1 overflow-y-auto px-4 py-2 bg-white/80 custom-scrollbar">
+                <div ref={chatBoxRef} className="flex-1 overflow-y-auto px-4 py-2 bg-white/80 dark:bg-card/80 custom-scrollbar">
                   {messages.length === 0 ? (
                     <p className="text-muted-foreground text-base text-center font-medium mt-10">Chưa có tin nhắn nào.</p>
                   ) : (
@@ -529,9 +529,9 @@ const Room = () => {
                     ))
                   )}
                 </div>
-                <form className="flex gap-2 px-4 py-3 border-t bg-white/90 rounded-b-2xl" onSubmit={handleSendMessage}>
+                <form className="flex gap-2 px-4 py-3 border-t bg-white/90 dark:bg-card/90 rounded-b-2xl" onSubmit={handleSendMessage}>
                   <input
-                    className="flex-1 border-2 border-primary/40 rounded-lg px-3 py-2 text-base focus:outline-none focus:border-primary bg-white"
+                    className="flex-1 border-2 border-primary/40 rounded-lg px-3 py-2 text-base focus:outline-none focus:border-primary bg-white dark:bg-background"
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
                     placeholder="Nhập tin nhắn..."
@@ -552,7 +552,7 @@ const Room = () => {
 
           {/* AI Focus Detection */}
           {aiFocus && (
-            <Card className="mb-4 p-3 flex items-center gap-2 bg-yellow-50 border-l-4 border-yellow-400">
+            <Card className="mb-4 p-3 flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400">
               <Sparkles className="text-yellow-500" />
               <span className="font-medium">AI Tập trung:</span>
               <span>{aiFocus}</span>
@@ -570,7 +570,7 @@ const Room = () => {
                   autoPlay
                   playsInline
                   muted
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover scale-x-[-1]"
                 ></video>
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-muted/60 rounded-lg">

@@ -114,7 +114,7 @@ const Payment = () => {
                     50% { transform: scale(1.5) rotate(180deg); opacity: 0.8; }
                 }
             `}</style>
-            <div className="min-h-screen bg-gradient-to-br from-orange-100 via-amber-100 to-yellow-100 flex items-center justify-center p-4 relative overflow-hidden">
+            <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground flex items-center justify-center p-4 relative overflow-hidden">
                 {/* Celebration Animation */}
                 {showCelebration && (
                     <div className="fixed inset-0 pointer-events-none z-50">
@@ -185,7 +185,7 @@ const Payment = () => {
                     </div>
                 )}
 
-                <Card className="w-full max-w-2xl gradient-card border-border/50 p-8">
+                <Card className="w-full max-w-2xl bg-white/90 dark:bg-card border-border/50 p-8">
                     <div className="flex items-center gap-3 mb-8">
                         <div className="w-16 h-16 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow">
                             <Crown className="w-8 h-8 text-primary-foreground" />
@@ -197,7 +197,7 @@ const Payment = () => {
                     </div>
 
                     {/* Plan Summary */}
-                    <Card className="bg-secondary/50 p-6 mb-8 border-border/50">
+                    <Card className="bg-secondary/50 dark:bg-secondary/20 p-6 mb-8 border-border/50">
                         <div className="flex items-center justify-between mb-4">
                             <div>
                                 <h3 className="text-xl font-semibold">{currentPlan.name}</h3>

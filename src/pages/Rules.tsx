@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 
 const Rules = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+    <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground">
       <Navbar />
       <div className="pt-36 pb-24 px-4">
         <div className="container mx-auto max-w-4xl">
@@ -20,7 +20,7 @@ const Rules = () => {
           </div>
 
           <div className="space-y-12 animate-fade-in">
-            <Card className="p-10 shadow-2xl border-2 border-primary/30 bg-white/95 rounded-2xl hover:shadow-amber-200/40 transition-all duration-300">
+            <Card className="p-10 shadow-2xl border-2 border-primary/30 bg-white/90 dark:bg-card rounded-2xl hover:shadow-amber-200/40 transition-all duration-300">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center shadow-lg">
                   <Shield className="h-7 w-7 text-white" />
@@ -47,7 +47,7 @@ const Rules = () => {
               </ul>
             </Card>
 
-            <Card className="p-10 shadow-2xl border-2 border-accent/30 bg-white/95 rounded-2xl hover:shadow-orange-200/40 transition-all duration-300">
+            <Card className="p-10 shadow-2xl border-2 border-accent/30 bg-white/90 dark:bg-card rounded-2xl hover:shadow-orange-200/40 transition-all duration-300">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-14 h-14 rounded-2xl gradient-accent flex items-center justify-center shadow-lg">
                   <Users className="h-7 w-7 text-white" />
@@ -78,7 +78,7 @@ const Rules = () => {
               </ul>
             </Card>
 
-            <Card className="p-10 shadow-2xl border-2 border-primary/30 bg-white/95 rounded-2xl hover:shadow-amber-200/40 transition-all duration-300">
+            <Card className="p-10 shadow-2xl border-2 border-primary/30 bg-white/90 dark:bg-card rounded-2xl hover:shadow-amber-200/40 transition-all duration-300">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center shadow-lg">
                   <Heart className="h-7 w-7 text-white" />
@@ -105,7 +105,7 @@ const Rules = () => {
               </ul>
             </Card>
 
-            <Card className="p-10 shadow-2xl border-2 border-accent/30 bg-white/95 rounded-2xl hover:shadow-orange-200/40 transition-all duration-300">
+            <Card className="p-10 shadow-2xl border-2 border-accent/30 bg-white/90 dark:bg-card rounded-2xl hover:shadow-orange-200/40 transition-all duration-300">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-14 h-14 rounded-2xl gradient-accent flex items-center justify-center shadow-lg">
                   <AlertCircle className="h-7 w-7 text-white" />
