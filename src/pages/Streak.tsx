@@ -52,7 +52,7 @@ const Streak = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-orange-50 dark:bg-background text-foreground">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-muted-foreground">Đang tải số liệu...</p>
@@ -62,7 +62,7 @@ const Streak = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+    <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground">
       <Navbar />
       <div className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-4xl mx-auto">
@@ -70,8 +70,8 @@ const Streak = () => {
           <p className="text-lg text-muted-foreground mb-10 text-center font-medium">Tiếp tục duy trì! Kiên trì là chìa khoá dẫn tới thành công.</p>
 
           {/* Main Streak Display */}
-          <Card className="p-10 mb-10 text-center shadow-xl border-2 border-primary/30 bg-white/90 animate-fade-in">
-            <div className="inline-flex items-center justify-center w-28 h-28 rounded-full gradient-primary mb-5 shadow-lg animate-bounce-slow">
+          <Card className="p-10 mb-10 text-center shadow-xl border-2 border-primary/30 bg-white/90 dark:bg-card animate-fade-in">
+            <div className="inline-flex items-center justify-center w-28 h-28 rounded-full bg-primary shadow-lg mb-5 animate-bounce-slow">
               <Flame className="h-14 w-14 text-white" />
             </div>
             <h2 className="text-7xl font-extrabold mb-2 text-primary drop-shadow">{profile?.current_streak || 7}</h2>
@@ -80,7 +80,7 @@ const Streak = () => {
 
           {/* Stats Grid */}
           <div className="grid md:grid-cols-3 gap-8 mb-10">
-            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-accent/40 bg-white/95 transition-all">
+            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-accent/40 bg-white/90 dark:bg-card transition-all">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
                   <Trophy className="h-6 w-6 text-accent" />
@@ -91,7 +91,7 @@ const Streak = () => {
               <p className="text-base text-muted-foreground">ngày</p>
             </Card>
 
-            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-primary/40 bg-white/95 transition-all">
+            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-primary/40 bg-white/90 dark:bg-card transition-all">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Calendar className="h-6 w-6 text-primary" />
@@ -102,9 +102,9 @@ const Streak = () => {
               <p className="text-base text-muted-foreground">phút</p>
             </Card>
 
-            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-yellow-400/40 bg-white/95 transition-all">
+            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-yellow-400/40 bg-white/90 dark:bg-card transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
                   <TrendingUp className="h-6 w-6 text-yellow-500" />
                 </div>
                 <h3 className="font-semibold text-lg">Số phiên</h3>
@@ -115,7 +115,7 @@ const Streak = () => {
           </div>
 
           {/* Motivation Message */}
-          <Card className="p-8 gradient-primary text-white shadow-xl animate-fade-in">
+          <Card className="p-8 bg-primary text-primary-foreground shadow-xl animate-fade-in">
             <h3 className="text-2xl font-bold mb-2">Tiếp tục cố gắng! 🎉</h3>
             <p className="mb-5 text-lg font-medium">
               {profile?.current_streak === 0 
@@ -127,7 +127,7 @@ const Streak = () => {
             <Button 
               onClick={() => navigate("/dashboard")}
               variant="secondary"
-              className="bg-white text-primary hover:bg-white/90 font-bold px-8 py-3 text-lg shadow-md"
+              className="bg-white text-primary hover:bg-white/90 font-bold px-8 py-3 text-lg shadow-md dark:bg-background dark:text-primary dark:hover:bg-muted"
             >
               Bắt đầu học
             </Button>

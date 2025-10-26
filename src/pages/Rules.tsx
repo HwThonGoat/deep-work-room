@@ -11,7 +11,7 @@ const Rules = () => {
       <div className="pt-36 pb-24 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-16 animate-fade-in-up">
-            <h1 className="text-6xl md:text-7xl font-extrabold mb-5 bg-gradient-primary bg-clip-text text-transparent tracking-tight drop-shadow-lg animate-fade-in-up">
+            <h1 className="text-6xl md:text-7xl font-extrabold mb-5 text-primary tracking-tight drop-shadow-lg animate-fade-in-up">
               Quy tắc cộng đồng
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground font-semibold max-w-2xl mx-auto animate-fade-in">

@@ -65,34 +65,39 @@ const Leaderboard = () => {
   };
 
   const LeaderboardList = ({ users, type }: { users: LeaderboardUser[], type: 'streak' | 'time' }) => (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {users.map((user, index) => (
-        <Card key={user.id} className={`p-6 flex items-center gap-6 rounded-xl shadow-md border-2 transition-all duration-300 hover:scale-[1.02] hover:border-primary/80 bg-white/90 ${
-          index < 3 ? 'border-primary/70 bg-gradient-to-r from-yellow-50 via-orange-50 to-amber-50' : ''
-        }`}>
-          <div className="flex flex-col items-center w-16">
-            <div className="text-3xl font-bold mb-1">
+        <Card
+          key={user.id}
+          className={`p-8 flex items-center gap-8 rounded-2xl shadow-xl border-2 transition-all duration-300 hover:scale-[1.025] hover:border-primary/80 bg-white/95 ${
+            index < 3 ? 'border-primary/80 bg-gradient-to-r from-yellow-100 via-orange-50 to-amber-100 shadow-amber-200/40' : ''
+          } animate-fade-in`}
+        >
+          <div className="flex flex-col items-center w-20">
+            <div className="text-4xl font-extrabold mb-2 drop-shadow">
               {getRankIcon(index)}
             </div>
-            <Avatar className="h-12 w-12 border-2 border-primary/60">
+            <Avatar className="h-16 w-16 border-2 border-primary/70 shadow-md">
               <AvatarImage src={user.avatar_url} />
-              <AvatarFallback className="gradient-primary text-white text-lg">
+              <AvatarFallback className="gradient-primary text-white text-2xl">
                 {user.full_name?.charAt(0) || "?"}
               </AvatarFallback>
             </Avatar>
           </div>
           <div className="flex-1">
-            <div className="font-semibold text-lg text-primary mb-1">{user.full_name || "Người dùng ẩn danh"}</div>
-            <div className="text-base text-muted-foreground flex items-center gap-2">
+            <div className="font-bold text-2xl text-primary mb-2 tracking-tight">
+              {user.full_name || "Người dùng ẩn danh"}
+            </div>
+            <div className="text-lg text-muted-foreground flex items-center gap-3 font-semibold">
               {type === 'streak' ? (
                 <>
-                  <TrendingUp className="h-5 w-5 text-primary" />
-                  <span className="font-medium">{user.current_streak} ngày chuỗi</span>
+                  <TrendingUp className="h-6 w-6 text-primary" />
+                  <span>{user.current_streak} ngày chuỗi</span>
                 </>
               ) : (
                 <>
-                  <Clock className="h-5 w-5 text-primary" />
-                  <span className="font-medium">{formatTime(user.total_study_time)} học tập</span>
+                  <Clock className="h-6 w-6 text-primary" />
+                  <span>{formatTime(user.total_study_time)} học tập</span>
                 </>
               )}
             </div>
@@ -116,61 +121,74 @@ const Leaderboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <Navbar />
-      
-      <div className="pt-32 pb-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Trophy className="h-12 w-12 text-primary" />
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+      <div className="pt-32 pb-24 px-4 flex flex-col items-center">
+        <div className="w-full max-w-3xl mx-auto">
+          <div className="flex flex-col items-center mb-12">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <div className="rounded-full bg-white/80 shadow-lg p-4 mb-2 border-2 border-primary/20">
+                <Trophy className="h-16 w-16 text-primary drop-shadow-lg" />
+              </div>
+              <h1 className="text-6xl md:text-7xl font-extrabold text-primary tracking-tight drop-shadow-lg text-center leading-tight">
                 Bảng xếp hạng
               </h1>
             </div>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-2xl md:text-3xl text-muted-foreground font-semibold text-center max-w-xl">
               Top người học chăm chỉ nhất trong cộng đồng HOCA
             </p>
           </div>
 
-          <Tabs defaultValue="streak" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="streak" className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4" />
-                Top Chuỗi học tập
-              </TabsTrigger>
-              <TabsTrigger value="time" className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                Top Thời gian học
-              </TabsTrigger>
-            </TabsList>
+          <Card className="p-8 md:p-12 bg-white/95 rounded-3xl shadow-2xl border-2 border-primary/10">
+            <Tabs defaultValue="streak" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-10 rounded-xl shadow-lg bg-white/80">
+                <TabsTrigger
+                  value="streak"
+                  className="flex items-center gap-2 text-base md:text-lg font-bold py-4 px-2 whitespace-nowrap min-w-0 text-center justify-center transition-colors duration-300
+                    data-[state=active]:text-primary data-[state=active]:fill-primary"
+                  style={{ wordBreak: 'keep-all', whiteSpace: 'nowrap' }}
+                >
+                  <TrendingUp className="h-5 w-5 transition-colors duration-300 group-data-[state=active]:text-primary text-muted-foreground" />
+                  <span className="truncate">Top Chuỗi học tập</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="time"
+                  className="flex items-center gap-2 text-base md:text-lg font-bold py-4 px-2 whitespace-nowrap min-w-0 text-center justify-center transition-colors duration-300
+                    data-[state=active]:text-primary data-[state=active]:fill-primary"
+                  style={{ wordBreak: 'keep-all', whiteSpace: 'nowrap' }}
+                >
+                  <Clock className="h-5 w-5 transition-colors duration-300 group-data-[state=active]:text-primary text-muted-foreground" />
+                  <span className="truncate">Top Thời gian học</span>
+                </TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="streak">
-              {streakLeaders.length === 0 ? (
-                <Card className="p-8 text-center">
-                  <p className="text-muted-foreground">
-                    Chưa có dữ liệu. Hãy là người đầu tiên!
-                  </p>
-                </Card>
-              ) : (
-                <LeaderboardList users={streakLeaders} type="streak" />
-              )}
-            </TabsContent>
+              <TabsContent value="streak" className="transition-all duration-400 ease-in-out opacity-100 animate-tabfadein">
+                {streakLeaders.length === 0 ? (
+                  <Card className="p-10 text-center bg-white/90 shadow-xl">
+                    <p className="text-muted-foreground text-lg font-medium">
+                      Chưa có dữ liệu. Hãy là người đầu tiên!
+                    </p>
+                  </Card>
+                ) : (
+                  <LeaderboardList users={streakLeaders} type="streak" />
+                )}
+              </TabsContent>
 
-            <TabsContent value="time">
-              {timeLeaders.length === 0 ? (
-                <Card className="p-8 text-center">
-                  <p className="text-muted-foreground">
-                    Chưa có dữ liệu. Hãy là người đầu tiên!
-                  </p>
-                </Card>
-              ) : (
-                <LeaderboardList users={timeLeaders} type="time" />
-              )}
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="time" className="transition-all duration-400 ease-in-out opacity-100 animate-tabfadein">
+                {timeLeaders.length === 0 ? (
+                  <Card className="p-10 text-center bg-white/90 shadow-xl">
+                    <p className="text-muted-foreground text-lg font-medium">
+                      Chưa có dữ liệu. Hãy là người đầu tiên!
+                    </p>
+                  </Card>
+                ) : (
+                  <LeaderboardList users={timeLeaders} type="time" />
+                )}
+              </TabsContent>
+            </Tabs>
+          </Card>
 
-          <div className="mt-8 p-6 bg-muted/30 rounded-lg">
-            <h3 className="font-semibold mb-2">💡 Mẹo để lên top:</h3>
-            <ul className="text-muted-foreground space-y-1 text-sm">
+          <div className="mt-14 p-8 bg-muted/40 rounded-2xl shadow-lg text-center max-w-2xl mx-auto">
+            <h3 className="font-bold text-lg mb-3 text-primary">💡 Mẹo để lên top:</h3>
+            <ul className="text-muted-foreground space-y-2 text-base font-medium">
               <li>• Học đều đặn mỗi ngày để duy trì chuỗi</li>
               <li>• Hoàn thành đầy đủ các phiên 45 phút</li>
               <li>• Nâng cấp Premium để có không giới hạn phiên học</li>

@@ -12,7 +12,7 @@ const Pricing = () => {
       <div className="pt-32 pb-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary dark:text-primary">
               Chọn gói của bạn
             </h1>
             <p className="text-xl text-muted-foreground">
