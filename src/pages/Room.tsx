@@ -463,14 +463,7 @@ const Room = () => {
     setIsChatBoxMaximized((prev) => !prev);
   } 
 
-  // Sample avatars for demo
-  const sampleAvatars = [
-    'https://randomuser.me/api/portraits/men/32.jpg',
-    'https://randomuser.me/api/portraits/women/44.jpg',
-    'https://randomuser.me/api/portraits/men/65.jpg',
-    'https://randomuser.me/api/portraits/women/68.jpg',
-    'https://randomuser.me/api/portraits/men/77.jpg',
-  ];
+  // Sample avatars for demo (already declared at top)
 
   return (
     <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground">
