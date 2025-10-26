@@ -239,7 +239,7 @@ const Pricing = () => {
                 <div className="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <GraduationCap className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-accent">Gói Vĩnh Viễn</h3>
+                <h3 className="text-2xl font-bold text-accent">Premium Vĩnh Viễn</h3>
               </div>
               <div className="mb-6">
                 <div className="text-5xl font-extrabold text-accent drop-shadow-lg">
