@@ -96,7 +96,7 @@ const Pricing = () => {
             </Card>
 
             {/* Premium Weekly */}
-            <Card className="relative flex flex-col p-6 border-4 border-primary shadow-lg hover:shadow-2xl hover:scale-[1.05] transition-all duration-300 group bg-white/90 h-full">
+            <Card className="relative flex flex-col p-6 border-4 border-primary shadow-lg hover:shadow-2xl hover:scale-[1.05] transition-all duration-300 group bg-white/90 dark:bg-card h-full">
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white px-5 py-1 rounded-full text-base font-bold shadow-lg animate-bounce">
                 Mới!
               </div>
