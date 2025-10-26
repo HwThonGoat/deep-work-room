@@ -20,9 +20,9 @@ const Pricing = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto md:mt-0 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto md:mt-0 mt-8">
             {/* Free Plan */}
-            <Card className="relative p-6 border-2 hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80">
+            <Card className="relative flex flex-col p-6 border-4 border-primary hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80 h-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Zap className="h-5 w-5 text-white" />
@@ -86,7 +86,7 @@ const Pricing = () => {
               <Link to="/auth">
                 <Button
                   variant="outline"
-                  className="w-full font-bold group-hover:border-primary group-hover:text-primary transition-all duration-300"
+                  className="w-full border-accent text-accent font-bold hover:bg-accent hover:text-white transition-all duration-300"
                 >
                   Bắt đầu
                 </Button>
@@ -96,8 +96,56 @@ const Pricing = () => {
               </div>
             </Card>
 
+            {/* Premium Weekly */}
+            <Card className="relative flex flex-col p-6 border-4 border-primary shadow-lg hover:shadow-2xl hover:scale-[1.05] transition-all duration-300 group bg-white/90 h-full">
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white px-5 py-1 rounded-full text-base font-bold shadow-lg animate-bounce">
+                Mới!
+              </div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Crown className="h-5 w-5 text-white" />
+                </div>
+                <h3 className="text-2xl font-extrabold text-accent">Premium Tuần</h3>
+              </div>
+              <div className="mb-6">
+                <div className="text-5xl font-extrabold text-accent drop-shadow-lg">
+                  49.000 <span className="text-lg font-medium text-muted-foreground">VNĐ/tuần</span>
+                </div>
+                <div className="text-muted-foreground font-medium">
+                  Trải nghiệm Premium linh hoạt, huỷ bất cứ lúc nào
+                </div>
+              </div>
+              <ul className="space-y-2 mb-6 text-base">
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Không giới hạn, tuỳ chỉnh Pomodoro</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Tất cả tính năng Miễn phí</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Chuỗi học tập nâng cao (thưởng, huy hiệu, BXH)</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Rớt chuỗi không cần xem quảng cáo (bonus streak)</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>AI phân tích xao nhãng (trực tiếp, báo thống kê)</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Background khi học (chỉ dùng thư viện nền)</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Báo cáo năng lực cá nhân nâng cao</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Phòng học riêng (giới hạn 10 phòng)</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Phân tích nâng cao, không giới hạn phiên</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Nghỉ 5 phút sau mỗi 45 phút</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Không bị kick khỏi phòng</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Nhắc nhở nghỉ ngơi – động viên</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Gamification nâng cao</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Minh bạch tính năng</li>
+              </ul>
+              <Link to="/payment?plan=weekly">
+                <Button
+                  variant="outline"
+                  className="w-full border-accent text-accent font-bold hover:bg-accent hover:text-white transition-all duration-300"
+                >
+                  Nâng cấp tuần
+                </Button>
+              </Link>
+              <div className="absolute top-4 right-4 bg-accent/90 text-xs px-3 py-1 rounded-full text-white font-semibold shadow-sm">
+                Linh hoạt
+              </div>
+            </Card>
+
             {/* Premium Monthly */}
-            <Card className="relative p-6 border-4 border-primary shadow-xl hover:shadow-2xl hover:scale-[1.06] transition-all duration-300 group bg-white/90 z-10">
+            <Card className="relative flex flex-col p-6 border-4 border-primary shadow-xl hover:shadow-2xl hover:scale-[1.06] transition-all duration-300 group bg-white/90 z-10 h-full">
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-white px-5 py-1 rounded-full text-base font-bold shadow-lg animate-bounce">
                 Phổ biến nhất
               </div>
@@ -105,7 +153,7 @@ const Pricing = () => {
                 <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Crown className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="text-2xl font-extrabold text-primary">Premium</h3>
+                <h3 className="text-2xl font-extrabold text-primary">Premium Tháng</h3>
               </div>
               <div className="mb-6">
                 <div className="text-5xl font-extrabold text-primary drop-shadow-lg">
@@ -177,7 +225,10 @@ const Pricing = () => {
                 </li>
               </ul>
               <Link to="/payment?plan=premium">
-                <Button className="w-full gradient-primary text-white font-bold shadow-md group-hover:scale-105 transition-all duration-300">
+                <Button
+                  variant="outline"
+                  className="w-full border-accent text-accent font-bold hover:bg-accent hover:text-white transition-all duration-300"
+                >
                   Nâng cấp ngay
                 </Button>
               </Link>
@@ -187,7 +238,7 @@ const Pricing = () => {
             </Card>
 
             {/* Premium Yearly */}
-            <Card className="relative p-6 border-2 hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80">
+            <Card className="relative flex flex-col p-6 border-4 border-primary hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80 h-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <GraduationCap className="h-5 w-5 text-white" />
@@ -196,43 +247,18 @@ const Pricing = () => {
               </div>
               <div className="mb-6">
                 <div className="text-5xl font-extrabold text-accent drop-shadow-lg">
-                  129.000{" "}
-                  <span className="text-lg font-medium text-muted-foreground">
-                    VNĐ/năm
-                  </span>
+                  129.000 <span className="text-lg font-medium text-muted-foreground">VNĐ/năm</span>
                 </div>
-                <div className="text-muted-foreground font-medium">
-                  Tiết kiệm 20% so với gói tháng
-                </div>
-                <div className="text-sm text-accent font-semibold mt-1">
-                  ✨ Giá trị tốt nhất, cam kết dài hạn
-                </div>
+                <div className="text-muted-foreground font-medium">Tiết kiệm 20% so với gói tháng</div>
+                <div className="text-sm text-accent font-semibold mt-1">✨ Giá trị tốt nhất, cam kết dài hạn</div>
               </div>
               <ul className="space-y-2 mb-6 text-base">
-                <li className="flex items-center gap-2">
-                  <span className="text-lg">💎</span>
-                  Tất cả tính năng Premium
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lg">💎</span>
-                  Hỗ trợ ưu tiên
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lg">💎</span>
-                  Truy cập sớm tính năng mới
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lg">💎</span>
-                  Badge sinh viên đặc biệt
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lg">💎</span>
-                  Thời gian dùng thử mở rộng
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lg">💎</span>
-                  Giá trị tốt nhất, cam kết dài hạn
-                </li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Tất cả tính năng Premium (gói Tháng)</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Hỗ trợ ưu tiên</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Truy cập sớm tính năng mới</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Badge sinh viên đặc biệt</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Thời gian dùng thử mở rộng</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Giá trị tốt nhất, cam kết dài hạn</li>
               </ul>
               <Link to="/payment?plan=yearly">
                 <Button

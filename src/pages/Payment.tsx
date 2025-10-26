@@ -31,7 +31,7 @@ const Payment = () => {
 
     const planDetails = {
         premium: {
-            name: "Premium",
+            name: "Premium Tháng",
             price: "99,000 VNĐ",
             duration: "1 tháng",
         },
@@ -39,6 +39,11 @@ const Payment = () => {
             name: "Premium Năm",
             price: "129,000 VNĐ",
             duration: "12 tháng",
+        },
+        weekly: {
+            name: "Premium Tuần",
+            price: "49,000 VNĐ",
+            duration: "1 tuần",
         },
         promo: {
             name: "Promo Sinh viên",
