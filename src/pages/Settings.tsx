@@ -81,12 +81,12 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+    <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground">
       <Navbar />
       <div className="container mx-auto px-4 pt-24 pb-12 max-w-2xl">
         <h1 className="text-5xl font-extrabold mb-8 text-primary drop-shadow-sm tracking-tight text-center">Cài đặt</h1>
 
-        <Card className="shadow-xl border-2 border-primary/20 bg-white/95 mb-8 animate-fade-in">
+        <Card className="shadow-xl border-2 border-primary/20 bg-white/90 dark:bg-card mb-8 animate-fade-in">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-primary mb-1">Cài đặt hồ sơ</CardTitle>
             <CardDescription className="text-base text-muted-foreground">Cập nhật thông tin cá nhân của bạn</CardDescription>
@@ -128,7 +128,7 @@ const Settings = () => {
           </CardContent>
         </Card>
 
-        <Card className="shadow-xl border-2 border-primary/10 bg-white/95 animate-fade-in">
+        <Card className="shadow-xl border-2 border-primary/10 bg-white/90 dark:bg-card animate-fade-in">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-primary mb-1">Giao diện</CardTitle>
             <CardDescription className="text-base text-muted-foreground">Tùy chọn giao diện của bạn được lưu tự động</CardDescription>

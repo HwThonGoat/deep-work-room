@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 
 const Pricing = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-amber-50">
+    <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground">
       <Navbar />
 
       <div className="pt-32 pb-20 px-4">
@@ -21,8 +21,7 @@ const Pricing = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto md:mt-0 mt-8">
-            {/* Free Plan */}
-            <Card className="relative flex flex-col p-6 border-4 border-primary hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80 h-full">
+            <Card className="relative flex flex-col p-6 border-4 border-primary hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80 dark:bg-card h-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Zap className="h-5 w-5 text-white" />
@@ -144,8 +143,7 @@ const Pricing = () => {
               </div>
             </Card>
 
-            {/* Premium Monthly */}
-            <Card className="relative flex flex-col p-6 border-4 border-primary shadow-xl hover:shadow-2xl hover:scale-[1.06] transition-all duration-300 group bg-white/90 z-10 h-full">
+            <Card className="relative flex flex-col p-6 border-4 border-primary shadow-xl hover:shadow-2xl hover:scale-[1.06] transition-all duration-300 group bg-white/90 dark:bg-card z-10 h-full">
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-white px-5 py-1 rounded-full text-base font-bold shadow-lg animate-bounce">
                 Phổ biến nhất
               </div>
@@ -237,8 +235,7 @@ const Pricing = () => {
               </div>
             </Card>
 
-            {/* Premium Yearly */}
-            <Card className="relative flex flex-col p-6 border-4 border-primary hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80 h-full">
+            <Card className="relative flex flex-col p-6 border-4 border-primary hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80 dark:bg-card h-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <GraduationCap className="h-5 w-5 text-white" />

@@ -105,7 +105,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:bg-background">
       <Navbar />
 
       <div className="container mx-auto px-4 pt-24 pb-12">
@@ -118,7 +118,7 @@ const Dashboard = () => {
         {/* Compact Stats Bar */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
           <Link to="/streak">
-            <Card className="p-6 shadow-lg hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-primary/60 bg-white/90">
+            <Card className="p-6 shadow-lg hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-primary/60 bg-white/90 dark:bg-card">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0 shadow-md">
                   <Flame className="h-6 w-6 text-white" />
@@ -131,7 +131,7 @@ const Dashboard = () => {
             </Card>
           </Link>
 
-          <Card className="p-6 shadow-lg border-2 border-transparent hover:border-accent/60 bg-white/90">
+          <Card className="p-6 shadow-lg border-2 border-transparent hover:border-accent/60 bg-white/90 dark:bg-card">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 shadow-md">
                 <Clock className="h-6 w-6 text-accent" />
@@ -143,7 +143,7 @@ const Dashboard = () => {
             </div>
           </Card>
 
-          <Card className="p-6 shadow-lg border-2 border-transparent hover:border-primary/60 bg-white/90">
+          <Card className="p-6 shadow-lg border-2 border-transparent hover:border-primary/60 bg-white/90 dark:bg-card">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 shadow-md">
                 <Video className="h-6 w-6 text-primary" />
@@ -187,12 +187,12 @@ const Dashboard = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {rooms.length === 0 ? (
-              <Card className="col-span-full p-8 text-center text-lg text-muted-foreground font-semibold bg-white/80 shadow-md">
+              <Card className="col-span-full p-8 text-center text-lg text-muted-foreground font-semibold bg-white/80 dark:bg-card shadow-md">
                 Không có phòng nào đang hoạt động.
               </Card>
             ) : (
               rooms.map((room) => (
-                <Card key={room.id} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all border-2 border-transparent hover:border-primary/60 bg-white/95 group relative">
+                <Card key={room.id} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all border-2 border-transparent hover:border-primary/60 bg-white/95 dark:bg-card group relative">
                   <div className="p-7 pb-5 flex flex-col h-full">
                     <div className="flex items-center gap-4 mb-3">
                       <div className="w-14 h-14 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0 shadow-md">

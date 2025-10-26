@@ -69,8 +69,8 @@ const Leaderboard = () => {
       {users.map((user, index) => (
         <Card
           key={user.id}
-          className={`p-8 flex items-center gap-8 rounded-2xl shadow-xl border-2 transition-all duration-300 hover:scale-[1.025] hover:border-primary/80 bg-white/95 ${
-            index < 3 ? 'border-primary/80 bg-gradient-to-r from-yellow-100 via-orange-50 to-amber-100 shadow-amber-200/40' : ''
+          className={`p-8 flex items-center gap-8 rounded-2xl shadow-xl border-2 transition-all duration-300 hover:scale-[1.025] hover:border-primary/80 bg-white/90 dark:bg-card ${
+            index < 3 ? 'border-primary/80 bg-gradient-to-r from-yellow-100 via-orange-50 to-amber-100 dark:from-yellow-900/20 dark:via-orange-900/20 dark:to-amber-900/20 shadow-amber-200/40' : ''
           } animate-fade-in`}
         >
           <div className="flex flex-col items-center w-20">
@@ -119,7 +119,7 @@ const Leaderboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+    <div className="min-h-screen bg-orange-50 dark:bg-background text-foreground">
       <Navbar />
       <div className="pt-32 pb-24 px-4 flex flex-col items-center">
         <div className="w-full max-w-3xl mx-auto">
@@ -137,7 +137,7 @@ const Leaderboard = () => {
             </p>
           </div>
 
-          <Card className="p-8 md:p-12 bg-white/95 rounded-3xl shadow-2xl border-2 border-primary/10">
+          <Card className="p-8 md:p-12 bg-white/90 dark:bg-card rounded-3xl shadow-2xl border-2 border-primary/10">
             <Tabs defaultValue="streak" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-10 rounded-xl shadow-lg bg-white/80">
                 <TabsTrigger
