@@ -108,7 +108,7 @@ const CreateRoom = () => {
 
             <div className="container mx-auto px-4 pt-24 pb-12 max-w-4xl">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-10 text-center">
                     <Button
                         variant="ghost"
                         onClick={() => navigate("/dashboard")}
@@ -118,31 +118,29 @@ const CreateRoom = () => {
                         Quay lại Dashboard
                     </Button>
 
-                    <div className="text-center">
-                        <div className="w-20 h-20 rounded-2xl bg-gradient-primary flex items-center justify-center mx-auto mb-4 shadow-glow">
-                            <Video className="w-10 h-10 text-white" />
+                    <div className="flex flex-col items-center">
+                        <div className="w-24 h-24 rounded-3xl bg-gradient-primary flex items-center justify-center mb-5 shadow-glow animate-fade-in">
+                            <Video className="w-12 h-12 text-white" />
                         </div>
-                        <h1 className="text-4xl font-bold mb-2 bg-gradient-primary bg-clip-text text-transparent">
-                            Tạo phòng học mới
-                        </h1>
-                        <p className="text-muted-foreground max-w-2xl mx-auto">
-                            Tạo một không gian học tập riêng với các tùy chỉnh phù hợp với nhu cầu của bạn
+                        <h1 className="text-5xl font-extrabold mb-2 bg-gradient-primary bg-clip-text text-transparent tracking-tight drop-shadow-sm animate-fade-in">Tạo phòng học mới</h1>
+                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-medium animate-fade-in">
+                            Tạo không gian học tập riêng với các tùy chỉnh phù hợp nhu cầu của bạn.
                         </p>
                     </div>
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                    <div className="grid lg:grid-cols-2 gap-8">
+                    <div className="grid lg:grid-cols-2 gap-10">
                         {/* Left Column - Basic Info */}
-                        <Card className="p-6 shadow-smooth border-2">
-                            <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                                <BookOpen className="w-5 h-5" />
+                        <Card className="p-8 shadow-lg border-2 border-transparent hover:border-primary/40 transition-all bg-white/90">
+                            <h2 className="text-2xl font-bold mb-7 flex items-center gap-2 text-primary">
+                                <BookOpen className="w-6 h-6" />
                                 Thông tin cơ bản
                             </h2>
 
-                            <div className="space-y-6">
+                            <div className="space-y-7">
                                 <div>
-                                    <Label htmlFor="roomName">Tên phòng *</Label>
+                                    <Label htmlFor="roomName" className="font-semibold">Tên phòng *</Label>
                                     <Input
                                         id="roomName"
                                         placeholder="Nhập tên phòng học..."
@@ -150,14 +148,15 @@ const CreateRoom = () => {
                                         onChange={(e) => setRoomName(e.target.value)}
                                         maxLength={50}
                                         disabled={loading}
+                                        className="mt-1 text-base px-4 py-2 border-2 border-primary/20 rounded-lg focus:border-primary"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground mt-1 text-right">
                                         {roomName.length}/50 ký tự
                                     </p>
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="description">Mô tả phòng</Label>
+                                    <Label htmlFor="description" className="font-semibold">Mô tả phòng</Label>
                                     <Textarea
                                         id="description"
                                         placeholder="Mô tả ngắn về phòng học (tùy chọn)..."
@@ -166,16 +165,17 @@ const CreateRoom = () => {
                                         maxLength={200}
                                         rows={3}
                                         disabled={loading}
+                                        className="mt-1 text-base px-4 py-2 border-2 border-primary/20 rounded-lg focus:border-primary"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground mt-1 text-right">
                                         {description.length}/200 ký tự
                                     </p>
                                 </div>
 
                                 <div>
-                                    <Label>Danh mục *</Label>
+                                    <Label className="font-semibold">Danh mục *</Label>
                                     <Select value={category} onValueChange={setCategory} disabled={loading}>
-                                        <SelectTrigger>
+                                        <SelectTrigger className="mt-1 border-2 border-primary/20 rounded-lg focus:border-primary">
                                             <SelectValue placeholder="Chọn danh mục phòng học" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -196,15 +196,13 @@ const CreateRoom = () => {
 
                                 {/* Category Preview */}
                                 {selectedCategoryData && (
-                                    <div className="p-4 bg-muted/50 rounded-lg border">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
-                                                <selectedCategoryData.icon className="w-5 h-5 text-white" />
-                                            </div>
-                                            <div>
-                                                <p className="font-medium">{selectedCategoryData.label}</p>
-                                                <p className="text-sm text-muted-foreground">Danh mục đã chọn</p>
-                                            </div>
+                                    <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 flex items-center gap-3 mt-2 animate-fade-in">
+                                        <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
+                                            <selectedCategoryData.icon className="w-5 h-5 text-white" />
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-primary">{selectedCategoryData.label}</p>
+                                            <p className="text-xs text-muted-foreground">Danh mục đã chọn</p>
                                         </div>
                                     </div>
                                 )}
@@ -212,16 +210,16 @@ const CreateRoom = () => {
                         </Card>
 
                         {/* Right Column - Settings */}
-                        <Card className="p-6 shadow-smooth border-2">
-                            <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                                <Users className="w-5 h-5" />
+                        <Card className="p-8 shadow-lg border-2 border-transparent hover:border-primary/40 transition-all bg-white/90">
+                            <h2 className="text-2xl font-bold mb-7 flex items-center gap-2 text-primary">
+                                <Users className="w-6 h-6" />
                                 Cài đặt phòng
                             </h2>
 
-                            <div className="space-y-6">
+                            <div className="space-y-7">
                                 {/* Thông báo tính năng sẽ có */}
-                                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                                    <h3 className="font-medium text-blue-900 mb-2">🚀 Tính năng sắp có</h3>
+                                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg animate-fade-in">
+                                    <h3 className="font-semibold text-blue-900 mb-2">🚀 Tính năng sắp có</h3>
                                     <ul className="text-sm text-blue-700 space-y-1">
                                         <li>• Thiết lập số người tối đa</li>
                                         <li>• Tùy chỉnh thời gian học & nghỉ</li>
@@ -261,12 +259,12 @@ const CreateRoom = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <Card className="mt-8 p-6 shadow-smooth border-2">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h3 className="font-semibold">Sẵn sàng tạo phòng?</h3>
+                    <Card className="mt-10 p-8 shadow-lg border-2 border-transparent hover:border-primary/40 transition-all bg-white/95">
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div className="text-left">
+                                <h3 className="font-bold text-lg text-primary mb-1">Sẵn sàng tạo phòng?</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Phòng sẽ được tạo và bạn sẽ được chuyển vào ngay lập tức
+                                    Phòng sẽ được tạo và bạn sẽ được chuyển vào ngay lập tức.
                                 </p>
                             </div>
                             <div className="flex gap-3">
@@ -275,12 +273,13 @@ const CreateRoom = () => {
                                     variant="outline"
                                     onClick={() => navigate("/dashboard")}
                                     disabled={loading}
+                                    className="font-semibold px-6 py-2"
                                 >
                                     Hủy
                                 </Button>
                                 <Button
                                     type="submit"
-                                    className="gradient-primary text-white min-w-[120px]"
+                                    className="gradient-primary text-white min-w-[120px] font-bold px-6 py-2 shadow-md"
                                     disabled={loading}
                                 >
                                     {loading ? (

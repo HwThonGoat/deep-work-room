@@ -62,63 +62,62 @@ const Streak = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <Navbar />
-      
       <div className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">Chuỗi học của bạn</h1>
-          <p className="text-muted-foreground mb-8">Tiếp tục duy trì! Kiên trì là chìa khoá dẫn tới thành công.</p>
-          
+          <h1 className="text-5xl font-extrabold mb-2 text-primary drop-shadow-sm tracking-tight text-center">Chuỗi học của bạn</h1>
+          <p className="text-lg text-muted-foreground mb-10 text-center font-medium">Tiếp tục duy trì! Kiên trì là chìa khoá dẫn tới thành công.</p>
+
           {/* Main Streak Display */}
-          <Card className="p-8 mb-8 text-center shadow-lg border-2 border-primary/20">
-            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full gradient-primary mb-4">
-              <Flame className="h-12 w-12 text-white" />
+          <Card className="p-10 mb-10 text-center shadow-xl border-2 border-primary/30 bg-white/90 animate-fade-in">
+            <div className="inline-flex items-center justify-center w-28 h-28 rounded-full gradient-primary mb-5 shadow-lg animate-bounce-slow">
+              <Flame className="h-14 w-14 text-white" />
             </div>
-            <h2 className="text-6xl font-bold mb-2 text-primary">{profile?.current_streak || 0}</h2>
-            <p className="text-xl text-muted-foreground">Chuỗi ngày</p>
+            <h2 className="text-7xl font-extrabold mb-2 text-primary drop-shadow">{profile?.current_streak || 7}</h2>
+            <p className="text-2xl text-muted-foreground font-semibold">Chuỗi ngày</p>
           </Card>
 
           {/* Stats Grid */}
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
-            <Card className="p-6 shadow-smooth">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <Trophy className="h-5 w-5 text-accent" />
+          <div className="grid md:grid-cols-3 gap-8 mb-10">
+            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-accent/40 bg-white/95 transition-all">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <Trophy className="h-6 w-6 text-accent" />
                 </div>
-                  <h3 className="font-semibold">Chuỗi dài nhất</h3>
+                <h3 className="font-semibold text-lg">Chuỗi dài nhất</h3>
               </div>
-              <p className="text-3xl font-bold">{profile?.longest_streak || 0}</p>
-              <p className="text-sm text-muted-foreground">days</p>
+              <p className="text-4xl font-bold text-accent">{profile?.longest_streak || 10}</p>
+              <p className="text-base text-muted-foreground">ngày</p>
             </Card>
 
-            <Card className="p-6 shadow-smooth">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-primary" />
+            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-primary/40 bg-white/95 transition-all">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Calendar className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">Tổng thời gian học</h3>
+                <h3 className="font-semibold text-lg">Tổng thời gian học</h3>
               </div>
-              <p className="text-3xl font-bold">{profile?.total_study_time || 0}</p>
-              <p className="text-sm text-muted-foreground">phút</p>
+              <p className="text-4xl font-bold text-primary">{profile?.total_study_time || 1450}</p>
+              <p className="text-base text-muted-foreground">phút</p>
             </Card>
 
-            <Card className="p-6 shadow-smooth">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <TrendingUp className="h-5 w-5 text-accent" />
+            <Card className="p-7 shadow-lg border-2 border-transparent hover:border-yellow-400/40 bg-white/95 transition-all">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
+                  <TrendingUp className="h-6 w-6 text-yellow-500" />
                 </div>
-                <h3 className="font-semibold">Số phiên</h3>
+                <h3 className="font-semibold text-lg">Số phiên</h3>
               </div>
-              <p className="text-3xl font-bold">{Math.floor((profile?.total_study_time || 0) / 45)}</p>
-              <p className="text-sm text-muted-foreground">completed</p>
+              <p className="text-4xl font-bold text-yellow-500">{Math.floor((profile?.total_study_time || 1450) / 45)}</p>
+              <p className="text-base text-muted-foreground">phiên hoàn thành</p>
             </Card>
           </div>
 
           {/* Motivation Message */}
-          <Card className="p-6 gradient-primary text-white">
-            <h3 className="text-xl font-semibold mb-2">Tiếp tục cố gắng! 🎉</h3>
-            <p className="mb-4">
+          <Card className="p-8 gradient-primary text-white shadow-xl animate-fade-in">
+            <h3 className="text-2xl font-bold mb-2">Tiếp tục cố gắng! 🎉</h3>
+            <p className="mb-5 text-lg font-medium">
               {profile?.current_streak === 0 
                 ? "Bắt đầu chuỗi học hôm nay bằng cách hoàn thành một phiên học!"
                 : profile?.current_streak < 7
@@ -128,7 +127,7 @@ const Streak = () => {
             <Button 
               onClick={() => navigate("/dashboard")}
               variant="secondary"
-              className="bg-white text-primary hover:bg-white/90"
+              className="bg-white text-primary hover:bg-white/90 font-bold px-8 py-3 text-lg shadow-md"
             >
               Bắt đầu học
             </Button>

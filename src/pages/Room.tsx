@@ -6,6 +6,14 @@ import { Card } from "@/components/ui/card";
 import { Video, VideoOff, X, Maximize2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+const sampleAvatars = [
+  'https://randomuser.me/api/portraits/men/32.jpg',
+  'https://randomuser.me/api/portraits/women/44.jpg',
+  'https://randomuser.me/api/portraits/men/65.jpg',
+  'https://randomuser.me/api/portraits/women/68.jpg',
+  'https://randomuser.me/api/portraits/men/77.jpg',
+];
+
 const Room = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -23,6 +31,8 @@ const Room = () => {
   const [isPremium, setIsPremium] = useState(false);
   const [aiFocus, setAiFocus] = useState<string | null>(null);
   const [isChatBoxVisible, setIsChatBoxVisible] = useState(false);
+  const [isChatBoxMaximized, setIsChatBoxMaximized] = useState(false);
+  const [members, setMembers] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -55,6 +65,26 @@ const Room = () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("rooms")
+          .select("active_members") // Correct column name
+          .eq("id", id)
+          .single();
+
+        if (error) throw error;
+        setMembers(data?.active_members || 0);
+      } catch (error) {
+        const typedError = error as { message: string };
+        console.error("Error fetching members count:", typedError.message);
+      }
+    };
+
+    fetchMembers();
+  }, [id]);
 
   const completeSession = useCallback(async () => {
     if (!sessionId) return;
@@ -353,7 +383,21 @@ const Room = () => {
 
   const toggleChatBox = () => {
     setIsChatBoxVisible((prev) => !prev);
-  };
+    setIsChatBoxMaximized(false);
+  } 
+
+  const maximizeChatBox = () => {
+    setIsChatBoxMaximized((prev) => !prev);
+  } 
+
+  // Sample avatars for demo
+  const sampleAvatars = [
+    'https://randomuser.me/api/portraits/men/32.jpg',
+    'https://randomuser.me/api/portraits/women/44.jpg',
+    'https://randomuser.me/api/portraits/men/65.jpg',
+    'https://randomuser.me/api/portraits/women/68.jpg',
+    'https://randomuser.me/api/portraits/men/77.jpg',
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
@@ -363,7 +407,7 @@ const Room = () => {
           <div>
             <h1 className="text-xl font-semibold">{roomName}</h1>
             <p className="text-sm text-muted-foreground">
-              {isBreak ? "🧘 Nghỉ giải lao - Thư giãn" : "📚 Phiên tập trung"}
+              {isBreak ? "🧘 Nghỉ giải lao - Thư giãn" : `📚 Phiên tập trung - ${members} thành viên đang học`}
             </p>
           </div>
 
@@ -372,9 +416,7 @@ const Room = () => {
               }`}>
               {formatTime(timeRemaining)}
             </div>
-            <Button variant="ghost" size="icon" onClick={toggleChatBox}>
-              💬
-            </Button>
+            {/* Removed duplicate chat button here */}
             <Button variant="ghost" size="icon" onClick={handleLeaveRoom}>
               <X className="h-5 w-5" />
             </Button>
@@ -387,28 +429,42 @@ const Room = () => {
         <div className="container mx-auto max-w-6xl">
           {/* Chat Box */}
           {isChatBoxVisible && (
-            <div className="fixed top-16 right-0 w-80 h-[calc(100%-4rem)] bg-white shadow-lg border-l border-border z-50 flex flex-col">
-              <Card className="p-4 flex-1 flex flex-col">
-                <div ref={chatBoxRef} className="flex-1 overflow-y-auto border-b mb-2 pb-2">
+            <div
+              className={`fixed bottom-8 right-8 z-50 flex flex-col items-end ${isChatBoxMaximized ? 'w-full h-[calc(100%-5rem)] left-0 top-20 right-0 bottom-0' : 'w-[380px] max-w-full'} transition-all duration-300`}
+            >
+              <Card className={`flex flex-col bg-white/95 shadow-2xl border-2 border-primary rounded-2xl ${isChatBoxMaximized ? 'h-full' : 'h-[500px]'} w-full animate-fade-in`}>
+                <div className="flex items-center justify-between px-4 py-2 border-b bg-gradient-to-r from-orange-100 via-amber-100 to-yellow-100 rounded-t-2xl">
+                  <span className="font-bold text-lg text-primary flex items-center gap-2">💬 Chat nhóm</span>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="icon" onClick={maximizeChatBox} className="hover:bg-orange-100">
+                      <Maximize2 className="h-5 w-5" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={toggleChatBox} className="hover:bg-orange-100">
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
+                </div>
+                <div ref={chatBoxRef} className="flex-1 overflow-y-auto px-4 py-2 bg-white/80 custom-scrollbar">
                   {messages.length === 0 ? (
-                    <p className="text-muted-foreground text-sm text-center">Chưa có tin nhắn nào.</p>
+                    <p className="text-muted-foreground text-base text-center font-medium mt-10">Chưa có tin nhắn nào.</p>
                   ) : (
                     messages.map((msg, idx) => (
-                      <div key={idx} className="mb-1">
-                        <span className="font-semibold text-primary">{msg.user}: </span>
-                        <span>{msg.text}</span>
+                      <div key={idx} className="mb-3 flex items-start gap-2">
+                        <span className="font-semibold text-primary whitespace-nowrap">{msg.user}:</span>
+                        <span className="bg-muted/60 px-3 py-1 rounded-xl text-base shadow-sm">{msg.text}</span>
                       </div>
                     ))
                   )}
                 </div>
-                <form className="flex gap-2 mt-2" onSubmit={handleSendMessage}>
+                <form className="flex gap-2 px-4 py-3 border-t bg-white/90 rounded-b-2xl" onSubmit={handleSendMessage}>
                   <input
-                    className="flex-1 border rounded px-2 py-1"
+                    className="flex-1 border-2 border-primary/40 rounded-lg px-3 py-2 text-base focus:outline-none focus:border-primary bg-white"
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
                     placeholder="Nhập tin nhắn..."
+                    autoFocus
                   />
-                  <Button type="submit" className="gradient-primary text-white">Gửi</Button>
+                  <Button type="submit" className="gradient-primary text-white font-bold px-6 py-2 text-base shadow-md">Gửi</Button>
                 </form>
               </Card>
             </div>
@@ -431,50 +487,54 @@ const Room = () => {
           )}
 
           {/* Video Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             {/* User's Video */}
-            <Card className="relative aspect-video overflow-hidden bg-card shadow-smooth border-2 hover:border-primary/50 transition-smooth">
+
+            <Card className="relative aspect-video overflow-hidden bg-card shadow-xl border-2 border-primary/60 hover:border-primary/80 transition-all group">
               {cameraEnabled ? (
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
                   muted
-                  className="w-full h-full object-cover rounded"
-                />
+                  className="w-full h-full object-cover rounded-lg border-4 border-primary/30 group-hover:shadow-2xl"
+                ></video>
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-muted">
-                  <div className="text-center">
-                    <VideoOff className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Tắt camera</p>
-                  </div>
+                <div className="w-full h-full flex flex-col items-center justify-center bg-muted/60 rounded-lg">
+                  <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user-off" className="h-16 w-16 mb-2 opacity-60" />
+                  <p className="text-base text-muted-foreground font-semibold">Tắt camera</p>
                 </div>
               )}
-              <div className="absolute bottom-3 left-3 bg-primary/90 px-3 py-1 rounded-full text-xs font-medium text-white">
+              <div className="absolute bottom-3 left-3 bg-primary/90 px-4 py-1 rounded-full text-sm font-semibold text-white shadow-md">
                 Bạn
               </div>
             </Card>
 
             {/* Simulated Other Users */}
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Card key={i} className="relative aspect-video overflow-hidden bg-card shadow-smooth border-2">
-                <div className="w-full h-full flex items-center justify-center bg-muted/30">
-                  <div className="text-center opacity-40">
-                    <Video className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-xs text-muted-foreground">Học viên {i}</p>
-                  </div>
+            {sampleAvatars.map((avatar, i) => (
+              <Card key={i} className="relative aspect-video overflow-hidden bg-card shadow-xl border-2 border-muted/40 group">
+                <div className="w-full h-full flex flex-col items-center justify-center bg-muted/40 rounded-lg">
+                  {i === 2 ? (
+                    <div className="flex flex-col items-center">
+                      <VideoOff className="h-14 w-14 mb-2 text-muted-foreground opacity-60" />
+                      <p className="text-base text-muted-foreground font-semibold">Đã tắt camera</p>
+                    </div>
+                  ) : (
+                    <img src={avatar} alt={`user${i}`} className="h-20 w-20 rounded-full object-cover border-4 border-primary/30 shadow-lg mb-2 group-hover:scale-105 transition-transform duration-300" />
+                  )}
+                  <p className="text-xs text-muted-foreground font-medium">Học viên {i + 1}</p>
                 </div>
               </Card>
             ))}
           </div>
 
           {/* Controls */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-2">
             <Button
               size="lg"
               variant={cameraEnabled ? "destructive" : "default"}
               onClick={toggleCamera}
-              className={!cameraEnabled ? "gradient-primary text-white hover:opacity-90" : ""}
+              className={!cameraEnabled ? "gradient-primary text-white hover:opacity-90 font-bold px-8 py-3 text-lg shadow-lg" : "font-bold px-8 py-3 text-lg shadow-lg"}
             >
               {cameraEnabled ? (
                 <>
@@ -490,11 +550,20 @@ const Room = () => {
             </Button>
 
             {cameraEnabled && (
-              <Button size="lg" variant="outline" onClick={enablePiP} className="border-2">
+              <Button size="lg" variant="outline" onClick={enablePiP} className="border-2 font-bold px-8 py-3 text-lg shadow-lg">
                 <Maximize2 className="mr-2 h-5 w-5" />
                 Chế độ Picture-in-Picture
               </Button>
             )}
+
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={toggleChatBox}
+              className="border-2 font-bold px-8 py-3 text-lg shadow-lg gradient-primary text-white hover:opacity-90"
+            >
+              💬 Chat nhóm
+            </Button>
           </div>
         </div>
       </div>

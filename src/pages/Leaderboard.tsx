@@ -15,6 +15,21 @@ interface LeaderboardUser {
   total_study_time: number;
 }
 
+const sampleStreakLeaders: LeaderboardUser[] = [
+  { id: '1', full_name: 'Nguyễn Văn A', avatar_url: '', current_streak: 21, total_study_time: 1200 },
+  { id: '2', full_name: 'Trần Thị B', avatar_url: '', current_streak: 18, total_study_time: 950 },
+  { id: '3', full_name: 'Lê Văn C', avatar_url: '', current_streak: 15, total_study_time: 800 },
+  { id: '4', full_name: 'Phạm Minh D', avatar_url: '', current_streak: 12, total_study_time: 700 },
+  { id: '5', full_name: 'Hoàng Thị E', avatar_url: '', current_streak: 10, total_study_time: 600 },
+];
+const sampleTimeLeaders: LeaderboardUser[] = [
+  { id: '6', full_name: 'Nguyễn Văn F', avatar_url: '', current_streak: 8, total_study_time: 2000 },
+  { id: '7', full_name: 'Trần Thị G', avatar_url: '', current_streak: 7, total_study_time: 1800 },
+  { id: '8', full_name: 'Lê Văn H', avatar_url: '', current_streak: 6, total_study_time: 1600 },
+  { id: '9', full_name: 'Phạm Minh I', avatar_url: '', current_streak: 5, total_study_time: 1400 },
+  { id: '10', full_name: 'Hoàng Thị K', avatar_url: '', current_streak: 4, total_study_time: 1200 },
+];
+
 const Leaderboard = () => {
   const navigate = useNavigate();
   const [streakLeaders, setStreakLeaders] = useState<LeaderboardUser[]>([]);
@@ -28,38 +43,13 @@ const Leaderboard = () => {
         navigate("/auth");
         return;
       }
-      fetchLeaderboards();
+      // fetchLeaderboards();
+      setStreakLeaders(sampleStreakLeaders);
+      setTimeLeaders(sampleTimeLeaders);
+      setLoading(false);
     };
     checkAuth();
   }, [navigate]);
-
-  const fetchLeaderboards = async () => {
-    try {
-      // Top streak users
-      const { data: streakData, error: streakError } = await supabase
-        .from("profiles")
-        .select("id, full_name, avatar_url, current_streak, total_study_time")
-        .order("current_streak", { ascending: false })
-        .limit(10);
-
-      if (streakError) throw streakError;
-      setStreakLeaders(streakData || []);
-
-      // Top study time users
-      const { data: timeData, error: timeError } = await supabase
-        .from("profiles")
-        .select("id, full_name, avatar_url, current_streak, total_study_time")
-        .order("total_study_time", { ascending: false })
-        .limit(10);
-
-      if (timeError) throw timeError;
-      setTimeLeaders(timeData || []);
-    } catch (error) {
-      console.error("Error fetching leaderboards:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -77,34 +67,34 @@ const Leaderboard = () => {
   const LeaderboardList = ({ users, type }: { users: LeaderboardUser[], type: 'streak' | 'time' }) => (
     <div className="space-y-4">
       {users.map((user, index) => (
-        <Card key={user.id} className={`p-4 transition-smooth hover:shadow-lg ${
-          index < 3 ? 'border-2 border-primary/50' : ''
+        <Card key={user.id} className={`p-6 flex items-center gap-6 rounded-xl shadow-md border-2 transition-all duration-300 hover:scale-[1.02] hover:border-primary/80 bg-white/90 ${
+          index < 3 ? 'border-primary/70 bg-gradient-to-r from-yellow-50 via-orange-50 to-amber-50' : ''
         }`}>
-          <div className="flex items-center gap-4">
-            <div className="text-2xl font-bold w-12 text-center">
+          <div className="flex flex-col items-center w-16">
+            <div className="text-3xl font-bold mb-1">
               {getRankIcon(index)}
             </div>
-            <Avatar className="h-12 w-12">
+            <Avatar className="h-12 w-12 border-2 border-primary/60">
               <AvatarImage src={user.avatar_url} />
-              <AvatarFallback className="gradient-primary text-white">
+              <AvatarFallback className="gradient-primary text-white text-lg">
                 {user.full_name?.charAt(0) || "?"}
               </AvatarFallback>
             </Avatar>
-            <div className="flex-1">
-              <div className="font-semibold">{user.full_name || "Người dùng ẩn danh"}</div>
-              <div className="text-sm text-muted-foreground flex items-center gap-2">
-                {type === 'streak' ? (
-                  <>
-                    <TrendingUp className="h-4 w-4 text-primary" />
-                    <span>{user.current_streak} ngày chuỗi</span>
-                  </>
-                ) : (
-                  <>
-                    <Clock className="h-4 w-4 text-primary" />
-                    <span>{formatTime(user.total_study_time)} học tập</span>
-                  </>
-                )}
-              </div>
+          </div>
+          <div className="flex-1">
+            <div className="font-semibold text-lg text-primary mb-1">{user.full_name || "Người dùng ẩn danh"}</div>
+            <div className="text-base text-muted-foreground flex items-center gap-2">
+              {type === 'streak' ? (
+                <>
+                  <TrendingUp className="h-5 w-5 text-primary" />
+                  <span className="font-medium">{user.current_streak} ngày chuỗi</span>
+                </>
+              ) : (
+                <>
+                  <Clock className="h-5 w-5 text-primary" />
+                  <span className="font-medium">{formatTime(user.total_study_time)} học tập</span>
+                </>
+              )}
             </div>
           </div>
         </Card>
@@ -124,7 +114,7 @@ const Leaderboard = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <Navbar />
       
       <div className="pt-32 pb-20 px-4">

@@ -18,6 +18,7 @@ interface Room {
   name: string;
   category: string;
   description: string;
+  online?: number; // demo field
 }
 
 const Dashboard = () => {
@@ -73,11 +74,15 @@ const Dashboard = () => {
       const { data, error } = await supabase
         .from("rooms")
         .select("*")
-        .eq("is_active", true)
         .order("name");
 
       if (error) throw error;
-      setRooms(data || []);
+      // Add demo online number for each room
+      const demoRooms = (data || []).map((room: Room, idx: number) => ({
+        ...room,
+        online: 50 + ((idx * 37) % 300), // demo: 50-349 online
+      }));
+      setRooms(demoRooms);
     } catch (error) {
       const typedError = error as { message: string };
       console.error("Error fetching rooms:", typedError.message);
@@ -105,47 +110,47 @@ const Dashboard = () => {
 
       <div className="container mx-auto px-4 pt-24 pb-12">
         {/* Quick Stats Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Trang chủ</h1>
-          <p className="text-muted-foreground">Chọn một phòng và bắt đầu học cùng mọi người</p>
+        <div className="mb-10 text-center">
+          <h1 className="text-5xl font-extrabold mb-2 text-primary drop-shadow-sm tracking-tight">Trang chủ</h1>
+          <p className="text-lg text-muted-foreground font-medium">Chọn một phòng và bắt đầu học cùng mọi người</p>
         </div>
 
         {/* Compact Stats Bar */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
           <Link to="/streak">
-            <Card className="p-4 shadow-smooth hover:shadow-md transition-smooth cursor-pointer border-2 hover:border-primary/50">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
-                  <Flame className="h-5 w-5 text-white" />
+            <Card className="p-6 shadow-lg hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-primary/60 bg-white/90">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0 shadow-md">
+                  <Flame className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">{profile?.current_streak || 0}</p>
-                  <p className="text-xs text-muted-foreground">Chuỗi ngày học</p>
+                  <p className="text-3xl font-bold text-primary">{profile?.current_streak || 7}</p>
+                  <p className="text-sm text-muted-foreground font-semibold">Chuỗi ngày học</p>
                 </div>
               </div>
             </Card>
           </Link>
 
-          <Card className="p-4 shadow-smooth border-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                <Clock className="h-5 w-5 text-accent" />
+          <Card className="p-6 shadow-lg border-2 border-transparent hover:border-accent/60 bg-white/90">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 shadow-md">
+                <Clock className="h-6 w-6 text-accent" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{profile?.total_study_time || 0}</p>
-                <p className="text-xs text-muted-foreground">Tổng số phút</p>
+                <p className="text-3xl font-bold text-accent">{profile?.total_study_time || 30}</p>
+                <p className="text-sm text-muted-foreground font-semibold">Tổng số phút</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 shadow-smooth border-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Video className="h-5 w-5 text-primary" />
+          <Card className="p-6 shadow-lg border-2 border-transparent hover:border-primary/60 bg-white/90">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 shadow-md">
+                <Video className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{Math.floor((profile?.total_study_time || 0) / 45)}</p>
-                <p className="text-xs text-muted-foreground">Số phiên học</p>
+                <p className="text-3xl font-bold text-primary">{Math.floor((profile?.total_study_time || 90) / 45)}</p>
+                <p className="text-sm text-muted-foreground font-semibold">Số phiên học</p>
               </div>
             </div>
           </Card>
@@ -153,16 +158,18 @@ const Dashboard = () => {
 
         {/* Rooms Section */}
         <div>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Phòng học</h2>
-            <Button className="gradient-primary text-white" onClick={() => navigate("/create-room")}>Tạo phòng</Button>
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            <h2 className="text-3xl font-bold text-primary flex items-center gap-2">
+              <Video className="h-7 w-7 text-primary" /> Phòng học
+            </h2>
+            <Button className="gradient-primary text-white px-8 py-3 text-lg font-bold shadow-md" onClick={() => navigate("/create-room")}>Tạo phòng</Button>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-8">
             <input
               type="text"
               placeholder="Tìm kiếm phòng theo tên hoặc ID..."
-              className="w-full p-2 border rounded-md"
+              className="w-full p-3 border-2 border-primary/20 rounded-xl text-base focus:outline-none focus:border-primary shadow-sm"
               onChange={(e) => {
                 const searchTerm = e.target.value.toLowerCase();
                 if (searchTerm === "") {
@@ -178,31 +185,43 @@ const Dashboard = () => {
             />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {rooms.map((room) => (
-              <Card key={room.id} className="overflow-hidden shadow-smooth hover:shadow-lg transition-smooth border-2 hover:border-primary/50">
-                <div className="p-6">
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
-                      <Video className="h-6 w-6 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold mb-1 truncate">{room.name}</h3>
-                      <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-muted">
-                        {room.category}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{room.description}</p>
-                  <Button
-                    onClick={() => handleJoinRoom(room.id, room.name)}
-                    className="w-full gradient-primary text-white hover:opacity-90"
-                  >
-                    Join Room
-                  </Button>
-                </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {rooms.length === 0 ? (
+              <Card className="col-span-full p-8 text-center text-lg text-muted-foreground font-semibold bg-white/80 shadow-md">
+                Không có phòng nào đang hoạt động.
               </Card>
-            ))}
+            ) : (
+              rooms.map((room) => (
+                <Card key={room.id} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all border-2 border-transparent hover:border-primary/60 bg-white/95 group relative">
+                  <div className="p-7 pb-5 flex flex-col h-full">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="w-14 h-14 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0 shadow-md">
+                        <Video className="h-7 w-7 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-xl font-bold mb-1 truncate text-primary group-hover:underline">{room.name}</h3>
+                        <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-muted/80 text-muted-foreground mr-2">
+                          {room.category}
+                        </span>
+                      </div>
+                    </div>
+                    {/* Online people demo */}
+                    <div className="flex items-center gap-2 mb-2 ml-1">
+                      <span className="inline-block w-3 h-3 rounded-full bg-green-400 animate-pulse"></span>
+                      <span className="font-semibold text-base text-gray-700">{room.online} online</span>
+                      <span className="text-gray-400 cursor-pointer" title="Số người đang online trong phòng này">&#9432;</span>
+                    </div>
+                    <p className="text-base text-muted-foreground mb-5 line-clamp-2 flex-1">{room.description}</p>
+                    <Button
+                      onClick={() => handleJoinRoom(room.id, room.name)}
+                      className="w-full gradient-primary text-white hover:opacity-90 font-bold text-lg py-3 shadow-md mt-auto"
+                    >
+                      Vào phòng
+                    </Button>
+                  </div>
+                </Card>
+              ))
+            )}
           </div>
         </div>
       </div>
