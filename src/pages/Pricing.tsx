@@ -95,7 +95,7 @@ const Pricing = () => {
               </div>
             </Card>
 
-            {/* Premium Weekly */}
+            {/* 49 Premium Tháng */}
             <Card className="relative flex flex-col p-6 border-4 border-primary shadow-lg hover:shadow-2xl hover:scale-[1.05] transition-all duration-300 group bg-white/90 dark:bg-card h-full">
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white px-5 py-1 rounded-full text-base font-bold shadow-lg animate-bounce">
                 Mới!
@@ -104,11 +104,11 @@ const Pricing = () => {
                 <div className="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Crown className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="text-2xl font-extrabold text-accent">Premium Tuần</h3>
+                <h3 className="text-2xl font-extrabold text-accent">Premium Tháng</h3>
               </div>
               <div className="mb-6">
                 <div className="text-5xl font-extrabold text-accent drop-shadow-lg">
-                  49.000 <span className="text-lg font-medium text-muted-foreground">VNĐ/tuần</span>
+                  49.000 <span className="text-lg font-medium text-muted-foreground">VNĐ/tháng</span>
                 </div>
                 <div className="text-muted-foreground font-medium">
                   Trải nghiệm Premium linh hoạt, huỷ bất cứ lúc nào
@@ -130,12 +130,12 @@ const Pricing = () => {
                 <li className="flex items-center gap-2"><span className="text-lg">💎</span>Gamification nâng cao</li>
                 <li className="flex items-center gap-2"><span className="text-lg">💎</span>Minh bạch tính năng</li>
               </ul>
-              <Link to="/payment?plan=weekly">
+              <Link to="/payment?plan=monthly">
                 <Button
                   variant="outline"
                   className="w-full border-accent text-accent font-bold hover:bg-accent hover:text-white transition-all duration-300"
                 >
-                  Nâng cấp tuần
+                  Nâng cấp tháng
                 </Button>
               </Link>
               <div className="absolute top-4 right-4 bg-accent/90 text-xs px-3 py-1 rounded-full text-white font-semibold shadow-sm">
@@ -143,6 +143,7 @@ const Pricing = () => {
               </div>
             </Card>
 
+            {/* 99 Premium Năm */}
             <Card className="relative flex flex-col p-6 border-4 border-primary shadow-xl hover:shadow-2xl hover:scale-[1.06] transition-all duration-300 group bg-white/90 dark:bg-card z-10 h-full">
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-white px-5 py-1 rounded-full text-base font-bold shadow-lg animate-bounce">
                 Phổ biến nhất
@@ -151,17 +152,14 @@ const Pricing = () => {
                 <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Crown className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="text-2xl font-extrabold text-primary">Premium Tháng</h3>
+                <h3 className="text-2xl font-extrabold text-primary">Premium Năm</h3>
               </div>
               <div className="mb-6">
                 <div className="text-5xl font-extrabold text-primary drop-shadow-lg">
-                  99.000{" "}
-                  <span className="text-lg font-medium text-muted-foreground">
-                    VNĐ/tháng
-                  </span>
+                  99.000 <span className="text-lg font-medium text-muted-foreground">VNĐ/năm</span>
                 </div>
                 <div className="text-muted-foreground font-medium">
-                  Thanh toán hàng tháng, huỷ bất cứ lúc nào
+                  Thanh toán hàng năm, huỷ bất cứ lúc nào
                 </div>
               </div>
               <ul className="space-y-2 mb-6 text-base">
@@ -222,12 +220,12 @@ const Pricing = () => {
                   Minh bạch tính năng
                 </li>
               </ul>
-              <Link to="/payment?plan=premium">
+              <Link to="/payment?plan=yearly">
                 <Button
                   variant="outline"
                   className="w-full border-accent text-accent font-bold hover:bg-accent hover:text-white transition-all duration-300"
                 >
-                  Nâng cấp ngay
+                  Nâng cấp năm
                 </Button>
               </Link>
               <div className="absolute top-4 right-4 bg-primary/90 text-xs px-3 py-1 rounded-full text-white font-semibold shadow-sm">
@@ -235,34 +233,35 @@ const Pricing = () => {
               </div>
             </Card>
 
+            {/* 129 Gói Vĩnh Viễn */}
             <Card className="relative flex flex-col p-6 border-4 border-primary hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 group bg-white/80 dark:bg-card h-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <GraduationCap className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-accent">Premium Năm</h3>
+                <h3 className="text-2xl font-bold text-accent">Gói Vĩnh Viễn</h3>
               </div>
               <div className="mb-6">
                 <div className="text-5xl font-extrabold text-accent drop-shadow-lg">
-                  129.000 <span className="text-lg font-medium text-muted-foreground">VNĐ/năm</span>
+                  129.000 <span className="text-lg font-medium text-muted-foreground">VNĐ/vĩnh viễn</span>
                 </div>
-                <div className="text-muted-foreground font-medium">Tiết kiệm 20% so với gói tháng</div>
+                <div className="text-muted-foreground font-medium">Truy cập trọn đời, không cần gia hạn</div>
                 <div className="text-sm text-accent font-semibold mt-1">✨ Giá trị tốt nhất, cam kết dài hạn</div>
               </div>
               <ul className="space-y-2 mb-6 text-base">
-                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Tất cả tính năng Premium (gói Tháng)</li>
+                <li className="flex items-center gap-2"><span className="text-lg">💎</span>Tất cả tính năng Premium (gói Năm)</li>
                 <li className="flex items-center gap-2"><span className="text-lg">💎</span>Hỗ trợ ưu tiên</li>
                 <li className="flex items-center gap-2"><span className="text-lg">💎</span>Truy cập sớm tính năng mới</li>
                 <li className="flex items-center gap-2"><span className="text-lg">💎</span>Badge sinh viên đặc biệt</li>
                 <li className="flex items-center gap-2"><span className="text-lg">💎</span>Thời gian dùng thử mở rộng</li>
                 <li className="flex items-center gap-2"><span className="text-lg">💎</span>Giá trị tốt nhất, cam kết dài hạn</li>
               </ul>
-              <Link to="/payment?plan=yearly">
+              <Link to="/payment?plan=forever">
                 <Button
                   variant="outline"
                   className="w-full border-accent text-accent font-bold hover:bg-accent hover:text-white transition-all duration-300"
                 >
-                  Nâng cấp năm
+                  Nâng cấp vĩnh viễn
                 </Button>
               </Link>
               <div className="absolute top-4 right-4 bg-accent/90 text-xs px-3 py-1 rounded-full text-white font-semibold shadow-sm">
