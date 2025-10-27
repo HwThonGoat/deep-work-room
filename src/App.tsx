@@ -15,6 +15,7 @@ import Rules from "./pages/Rules";
 import NotFound from "./pages/NotFound";
 import Payment from "./pages/Payment";
 import CreateRoom from "./pages/CreateRoom";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/rules" element={<Rules />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
